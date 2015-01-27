@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+<h:head>
+	<title>Acceso al Sistema</title>
+	<link href="#{appMBean.baseUrl}resources/css/login.css" type="text/css" rel="stylesheet"></link>
+</h:head>
+<h:body>
+
+	<div class="conteiner">
+	<p:growl id="growl" showDetail="true" life="3000" />
+		<h:form id="formLogin">
+			
+					
+				
+			<p:panel header="Acceso al Sistema" >
+
+
+				<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="nombre" value="Nombre de usuario*" />
+						<br/>
+						<p:inputText value="#{loginBean.nombre}" id="nombre" required="true" label="nombre" style="width: 300px;  height: 30px;" placeholder="Ingrese su usuario..."/>
+						<br/>
+						<h:outputLabel for="clave" value="Clave de acceso*" />
+						<br/>
+						<p:password value="#{loginBean.clave}" id="clave" required="true" label="clave" style="width: 300px;  height: 30px;" placeholder="Ingrese su clave..."></p:password>
+						<f:facet name="footer">
+							<p:commandButton id="loginButton" value="Ingresar" update=":growl"
+								actionListener="#{loginBean.login(actionEvent)}" icon="icon-login" style="width: 100px;  height: 30px;"
+								oncomplete="handleLoginRequest(xhr, status, args)" />
+						</f:facet>
+					</h:panelGrid>
+				
+			</p:panel>
+		</h:form>
+	</div>
+
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.validationFailed || !args.loggedIn) {
+				jQuery('#formLogin').effect("shake", {times : 3	}, 100);
+			} else {
+				location.href=args.ruta;
+			}
+		}
+	</script>
+</h:body>
+</html>

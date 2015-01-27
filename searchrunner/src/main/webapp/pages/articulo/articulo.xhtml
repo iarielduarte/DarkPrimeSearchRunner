@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="msgs" showDetail="true" />
+			<h:form>
+			<p:commandButton id="btnAddArticulo" action="#{articuloMBean.moveToPageAddArticulo}"
+			 icon="ui-icon-plusthick" title="Agregar" value="Nuevo Articulo"/>
+			
+			<p:commandButton id="btnPrintArticulo" action="#{articuloMBean.PDF}"
+			 icon="ui-icon-print" title="Imprimir" value="Informe de Articulos" ajax="false" />
+			 
+			 <p:commandButton id="btnExportExcel" action="#{articuloMBean.XLSX}"
+			 icon="ui-icon-star" title="Exportat" value="Exportar a Excel" ajax="false" />
+			 
+<!-- 			<p:commandButton id="btnPrintArticulo" update=":formPrint" -->
+<!-- 			oncomplete="PF('articuloDialogPrint').show()" icon="ui-icon-print" title="Imprimir" value="Informe de Articulos"/> -->
+			</h:form>
+			
+			<p:separator></p:separator>
+
+			<h:form id="formDataTable">
+				<p:dataTable id="articuloTable" var="item" value="#{articuloMBean.articulos}"
+				selection="#{articuloMBean.selectedArticulo}" 
+				emptyMessage="No hay articulos con este criterio"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{articuloMBean.filteredArticulos}" 
+				widgetVar="articuloDataTable"
+				>
+<!-- 				<p:ajax event="rowSelect" listener="#{articuloMBean.onRowSelect}" /> -->
+				
+					<p:column headerText="Id" style="width:6%" filterBy="#{item.id}" sortBy="#{item.id}">
+						<h:outputText value="#{item.id}"  />
+					</p:column>
+					
+					<p:column headerText="Codigo Articulo" style="width:10%" filterBy="#{item.codigoOrigen}" filterMatchMode="contains" sortBy="#{item.codigoOrigen}">
+						<h:outputText value="#{item.codigoOrigen}" />
+					</p:column>
+
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains" sortBy="#{item.nombre}">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+
+					<p:column headerText="Marca" style="width:20%" filterBy="#{item.marca.nombre}" filterMatchMode="contains" sortBy="#{item.marca.nombre}">
+						<h:outputText value="#{item.marca.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Codigo Marca" style="width:20%" filterBy="#{item.codigoMarca}" filterMatchMode="contains" sortBy="#{item.codigoMarca}">
+						<h:outputText value="#{item.codigoMarca}" />
+					</p:column>
+					
+					<p:column headerText="Numero Pieza" style="width:20%" filterBy="#{item.numeroPieza}" filterMatchMode="contains" sortBy="#{item.numeroPieza}">
+						<h:outputText value="#{item.numeroPieza}" />
+					</p:column>
+					
+					<p:column headerText="Precio Venta" style="width:10%" >
+						<h:outputText value="#{item.precioVenta}" />
+					</p:column>
+					
+					<p:column headerText="Ver" style="width:20px">  
+	                    <p:commandButton id="btnView" update=":formView:display" onclick="articuloDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{articuloMBean.selectedArticulo}" />  
+	                    </p:commandButton>  
+                   </p:column>
+
+					<p:column headerText="Editar" style="width:20px">
+						<p:commandButton type="Submit" id="btnUpdate" action="#{articuloMBean.moveToPageEditArticulo}" icon="ui-icon-pencil" title="Modificar" ajax="false">
+							<f:setPropertyActionListener value="#{item}" target="#{articuloMBean.selectedArticulo}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Borrar" style="width:20px">
+						<p:commandButton id="btnDelete" update=":formDelete" oncomplete="articuloDialogDelete.show()" icon="ui-icon-trash"	title="Eliminar">
+							<f:setPropertyActionListener value="#{item}" target="#{articuloMBean.selectedArticulo}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+			
+			
+			<h:form id="formDelete">
+			<p:confirmDialog id="confirmDialog" showEffect="fade" hideEffect="explode" severity="alert" widgetVar="articuloDialogDelete"
+				message="¿Estas seguro que desea eliminar?" header="Confirmar Eliminado" icon="ui-icon-alert">  
+        			
+        			<p:commandButton id="confirm" value="Si" icon="ui-icon-check"
+        			update=":formDataTable, :msgs" actionListener="#{articuloMBean.onDelete(actionEvent)}" oncomplete="articuloDialogDelete.hide()"  />  
+        			
+        			<p:commandButton id="decline" value="No" type="button" icon="ui-icon-close" onclick="articuloDialogDelete.hide()"/>       
+    			</p:confirmDialog> 
+				 
+			</h:form>
+			
+			<h:form id="formView">
+				<p:dialog header="Ver Articulo" widgetVar="articuloDialogView"
+					resizable="false" id="articuloDlgView" showEffect="explode" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Codigo de Articulo:"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.codigoOrigen}" />
+						
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.nombre}" />
+						
+						<h:outputText value="Grupo:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.grupo.nombre}" />
+						
+						<h:outputText value="Tipo Grupo:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.tipoGrupo.nombre}" />
+						
+						<h:outputText value="Ubicacion:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.ubicacion.nombre}" />
+						
+						<h:outputText value="Procedencia:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.pais.nombre}" />
+						
+						<h:outputText value="Tipo de Iva:"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.tipoIva}" />
+						
+						<h:outputText value="%"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.iva}" />
+						
+						<h:outputText value="Observacion:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.observaciones}" />
+						
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="mensaje" showDetail="true" />
+			
+			<h:form id="formArticulo">
+				
+
+				<p:commandButton id="btnVolver" action="#{articuloMBean.moveToPageArticulo}" icon="ui-icon-triangle-1-w" value="Volver" />
+				<p:commandButton id="btnGuardar" update=":formArticulo, :mensaje" actionListener="#{articuloMBean.onCreate(actionEvent)}" icon="ui-icon-disk" value="Guardar" disabled="#{articuloMBean.confirmaGrupo==false}" />
+				
+				<p:separator></p:separator>
+				<p:panel id="panel2" header="Referencias del Articulo" style="margin-bottom:10px;">
+<!-- 					<p:messages id="msgs" rendered="#{articuloMBean.confirmaGrupo==true}"/>   -->
+					<h:panelGrid columns="4" >
+						<h:outputText value="Grupo:*"/>
+                        <p:selectOneMenu id="somGrupo" value="#{articuloMBean.grupoId}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="#{articuloMBean.confirmaGrupo==true}">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{grupoMBean.selectOneItemGrupo}" />
+                             <p:ajax update="somTipoGrupo" listener="#{articuloMBean.handleGrupoChange}" />  
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Tipo de Grupo:*"/>
+                        <p:selectOneMenu id="somTipoGrupo"  value="#{articuloMBean.tipoGrupoId}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="#{articuloMBean.confirmaGrupo==true}">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{articuloMBean.selectOneItemTipoGrupo}" />
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Marca:*"/>
+                        <p:selectOneMenu id="somMarca" value="#{articuloMBean.marcaId}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="#{articuloMBean.confirmaGrupo==true}">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{marcaMBean.selectOneItemMarca}" />
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Procedencia:*"/>
+                        <p:selectOneMenu id="somPais" value="#{articuloMBean.paisId}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="#{articuloMBean.confirmaGrupo==true}">
+                            <f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+                            <f:selectItems value="#{paisMBean.selectOneItemPais}" />
+                        </p:selectOneMenu>
+						
+					</h:panelGrid>
+					<p:separator></p:separator>
+					<p:commandButton id="btnConfirmar"  update=":formArticulo, :mensaje" actionListener="#{articuloMBean.onConfirmaGrupo(actionEvent)}" icon="ui-icon-check" value="Confirmar" disabled="#{articuloMBean.confirmaGrupo==true}" />
+					<p:commandButton id="btnCancelar" process="@this" update=":formArticulo" actionListener="#{articuloMBean.onModificaGrupo}" icon="ui-icon-close" value="Cancelar" disabled="#{articuloMBean.confirmaGrupo==false}" />
+				</p:panel>
+					
+				<p:panel id="panel1" header="Identificadores del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="2">
+						<h:outputLabel value="Descripción del Articulo: *" />
+						<p:inputText id="descripcion" value="#{articuloMBean.nombre}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="Descripcion" size="116" requiredMessage="El campo descripción es obligatorio">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					</h:panelGrid>
+					<h:panelGrid columns="4">
+					
+					<h:outputLabel value="Código de Articulo: *" />
+						<p:inputText id="codigoarticulo" value="#{articuloMBean.codigoOrigen}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							label="codigoarticulo" size="50" readonly="true"/>
+							
+						<h:outputLabel value="Código de Marca: *" />
+						<p:inputText id="codigomarca" value="#{articuloMBean.codigoMarca}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="codigomarca" size="50" requiredMessage="El campo Codigo de Marca es obligatorio" />
+						
+						<h:outputLabel value="Numero de Pieza: *" />
+						<p:inputText id="numeropieza" value="#{articuloMBean.numeroPieza}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="numeropieza" size="50" requiredMessage="El campo Numero de Pieza es obligatorio" />
+						
+						<h:outputLabel value="Codigo de Barras: " />
+						<p:inputText id="codigobarra" value="#{articuloMBean.codigoBarra}" disabled="#{articuloMBean.confirmaGrupo==false}"
+						size="50" />
+					</h:panelGrid>
+				</p:panel>
+
+			
+				<p:panel id="panel3" header="Precios e Impuestos del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="4">
+						<h:outputLabel value="Precio de Venta: *" />
+						<p:inputText id="precioVenta" value="#{articuloMBean.precioVenta}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="precioVenta" size="30" requiredMessage="El campo precio de venta es obligatorio"
+							converterMessage="Se espera un valor númerico" validatorMessage="Se espera un valor entre 1.000.000 y 0">
+							<f:converter converterId="javax.faces.Double"/>
+							<f:validateDoubleRange maximum="10000000" minimum="0"/>
+							</p:inputText>
+						
+						<h:outputLabel value="Precio de Compra: *" />
+						<p:inputText id="precioActual" value="#{articuloMBean.precioActual}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="precioActual" size="30" requiredMessage="El campo precio de compra es obligatorio"
+							converterMessage="Se espera un valor númerico" validatorMessage="Se espera un valor entre 1.000.000 y 0">
+							<f:converter converterId="javax.faces.Double"/>
+							<f:validateDoubleRange maximum="1000000" minimum="0"/>
+							</p:inputText>
+
+						<h:outputLabel value="Tipo de Iva: * " />
+						<p:selectOneMenu value="#{articuloMBean.tipoIva}" disabled="#{articuloMBean.confirmaGrupo==false}">
+							<f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+							<f:selectItem itemLabel="GRAVADA" itemValue="GRAVADA" />
+							<f:selectItem itemLabel="EXENTA" itemValue="EXENTA" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Iva: * " />
+						<p:selectOneMenu value="#{articuloMBean.iva}" disabled="#{articuloMBean.confirmaGrupo==false}">
+							<f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+							<f:selectItem itemLabel="10%" itemValue="10" />
+							<f:selectItem itemLabel="5%" itemValue="5" />
+							<f:converter converterId="javax.faces.Integer"/>
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+				</p:panel>
+			
+				<p:panel id="panel5" header="Información de Stock" style="margin-bottom:10px;">
+						<h:panelGrid columns="4">
+						<h:outputLabel value="Stock Minimo: *" />
+						<p:inputText id="stockMinimo" value="#{articuloMBean.stockMinimo}" disabled="#{articuloMBean.confirmaGrupo==false}"
+							required="true" label="stockMinimo" size="30" requiredMessage="El campo stock minimo es obligatorio"
+							converterMessage="Se espera una cantidad númerica" validatorMessage="Se espera un valor entre 1.000 y 0">
+							<f:converter converterId="javax.faces.Integer"/>
+							<f:validateDoubleRange maximum="1000" minimum="0"/>
+							</p:inputText>
+						
+						 <h:outputText value="Ubicación: "/>
+                        <p:selectOneMenu value="#{articuloMBean.ubicacionId}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="#{articuloMBean.confirmaGrupo==false}">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{ubicacionMBean.selectOneItemUbicacion}" />
+                        </p:selectOneMenu>
+						
+					</h:panelGrid>
+				</p:panel>
+			
+				<p:panel id="panel4" header="Información del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="1" >
+						
+						<h:outputLabel value="Observaciones " />
+						<p:inputTextarea id="obs" value="#{articuloMBean.observaciones}" rows="2" cols="140" counter="counter" maxlength="255"       
+    					counterTemplate="{0} Caracteres Restantes." autoResize="false" disabled="#{articuloMBean.confirmaGrupo==false}"/>  
+  						
+						<h:outputText id="counter" />  
+						
+					</h:panelGrid>
+					
+				</p:panel>
+				
+			</h:form>
+		</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

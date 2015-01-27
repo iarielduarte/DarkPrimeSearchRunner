@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="#{appMBean.baseUrl}resources/css/default.css"	rel="stylesheet" type="text/css" />
+	<link href="#{appMBean.baseUrl}resources/css/cssLayout.css"	rel="stylesheet" type="text/css" />
+	<title>Chromia 1.0</title>
+</h:head>
+
+<h:body>
+
+	<div id="conteiner">
+
+		<div id="top" class="ui-widget-header ui-corner-all">
+			<ui:insert name="top">Sistema de Control de Stock</ui:insert>
+		</div>
+
+		<div id="menu">
+			<h:form>
+
+				<p:menubar>
+					
+					<p:menuitem label="Home" icon="ui-icon-home" url="#{appMBean.urlHome}"/>
+					
+					<p:submenu label="Sistema" icon="ui-icon-gear">
+						<p:submenu label="Seguridad" icon="ui-icon-contact">
+							<p:menuitem value="Usuarios" url="#{appMBean.urlSeguridadPage}usuario.xhtml" />
+							<p:menuitem value="Roles" url="#{appMBean.urlSeguridadPage}rol.xhtml" />
+						</p:submenu>
+						<p:menuitem value="Configuracion" url="#" icon="ui-icon-gear" />
+						<p:menuitem value="Ayuda" icon="ui-icon-help" url="#" />
+						<p:separator />
+						<p:menuitem value="Salir" actionListener="#{loginBean.logout}"
+							oncomplete="handleLoginRequest(xhr, status, args)"
+							icon="ui-icon-close" />
+					</p:submenu>
+
+					<p:submenu label="Articulos" icon="ui-icon-pencil">
+						<p:menuitem value="Grupos" url="#{appMBean.urlArticuloPage}grupo.xhtml"  />
+						<p:menuitem value="Tipo de Grupos" url="#{appMBean.urlArticuloPage}tipogrupo.xhtml"  />
+						<p:menuitem value="Marcas" url="#{appMBean.urlArticuloPage}marca.xhtml"  />
+						<p:menuitem value="Paises" url="#{appMBean.urlArticuloPage}pais.xhtml"  />
+						<p:menuitem value="Ubicaciones" url="#{appMBean.urlArticuloPage}ubicacion.xhtml"  />
+						<p:separator/>
+						<p:menuitem value="Articulos" url="#{appMBean.urlArticuloPage}articulo.xhtml"  />
+					</p:submenu>
+
+					<p:submenu label="Compras" icon="ui-icon-arrowreturnthick-1-w">
+						<p:submenu label="Ajax" icon="ui-icon-refresh">
+							<p:menuitem value="Save" actionListener="#{menuMBean.save}"	icon="ui-icon-disk" />
+							<p:menuitem value="Update" actionListener="#{menuMBean.update}"	icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+					</p:submenu>
+					
+					<p:submenu label="Ventas" icon="ui-icon-arrowreturnthick-1-e">
+						<p:submenu label="Ajax" icon="ui-icon-refresh">
+							<p:menuitem value="Save" actionListener="#{menuMBean.save}"	icon="ui-icon-disk" />
+							<p:menuitem value="Update" actionListener="#{menuMBean.update}"	icon="ui-icon-arrowrefresh-1-w" />
+						</p:submenu>
+					</p:submenu>
+
+					<p:menuitem value="Reportes" icon="ui-icon-document" ></p:menuitem>
+					
+					<p:menuitem value="Salir" actionListener="#{loginBean.logout}"
+						icon="ui-icon-close"
+						oncomplete="handleLoginRequest(xhr, status, args)" />
+
+				</p:menubar>
+
+
+			</h:form>
+		</div>
+
+		<div id="content"
+			class="center_content ui-widget ui-widget-content ui-cornerall">
+			<ui:insert name="content">Content</ui:insert>
+		</div>
+
+
+		<div id="bottom" class="ui-widget-header ui-corner-all">
+			<ui:insert name="bottom">
+				&Copy; Ariel Duarte ©2014 </ui:insert>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function handleLoginRequest(xhr, status, args) {
+			if (args.loggetOut) {
+				location.href = args.ruta;
+			}
+		}
+	</script>
+</h:body>
+</html>

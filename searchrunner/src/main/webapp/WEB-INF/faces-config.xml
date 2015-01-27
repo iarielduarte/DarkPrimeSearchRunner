@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+
+	<!-- JSF and Spring are integrated -->
+	<application>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
+
+	<!-- Users Authorization Login -->
+	<lifecycle>
+		<phase-listener>com.chromia.util.AuthorizationListener</phase-listener>
+	</lifecycle>
+	
+	<!-- Converter empty String to null -->
+	<converter>
+		<converter-id>stringNull</converter-id>
+		<converter-class>com.chromia.util.ConversorStringNull</converter-class>
+	</converter>
+	
+	<navigation-rule>
+		<navigation-case>
+		<from-action>#{articuloMBean.moveToPageArticulo}</from-action>
+			<from-outcome>articulo</from-outcome>
+			<to-view-id>/pages/articulo/articulo.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+		<from-action>#{articuloMBean.moveToPageAddArticulo}</from-action>
+			<from-outcome>addArticulo</from-outcome>
+			<to-view-id>/pages/articulo/addarticulo.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+		<from-action>#{articuloMBean.moveToPageEditArticulo}</from-action>
+			<from-outcome>editArticulo</from-outcome>
+			<to-view-id>/pages/articulo/editarticulo.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

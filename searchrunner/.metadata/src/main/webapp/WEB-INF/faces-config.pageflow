@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13955527989890" configfile="/searchrunner/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" id="pf13980041400060" outlinks="pf13980041400071 pf13980041400072 pf13986271091400" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/articulo/articulo.xhtml" id="pf13980041400073" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf13980041400071" path="/pages/articulo/articulo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/articulo/addarticulo.xhtml" id="pf13980041400074" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf13980041400072" path="/pages/articulo/addarticulo.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/articulo/editarticulo.xhtml" id="pf13986271091401" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf13986271091400" path="/pages/articulo/editarticulo.xhtml"/>
+  <links id="pf13980041400071" target="pf13980041400073" source="pf13980041400060"/>
+  <links id="pf13980041400072" target="pf13980041400074" source="pf13980041400060"/>
+  <links id="pf13986271091400" target="pf13986271091401" source="pf13980041400060"/>
+</pageflow:Pageflow>

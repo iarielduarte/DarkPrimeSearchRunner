@@ -1,0 +1,23 @@
+body {
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+	background:url(../images/negro.jpg), rgba(0,0,0,0);
+}
+
+.conteiner{
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10%;
+	font-size: 100%;
+}
+
+.ui-state-default .icon-login{
+	background-image: url(../images/login.png)
+}
+
+#nombre{
+/* 	style="width: 300px;  height: 30px; " */
+	width: 300px;  
+	height: 30px;
+}

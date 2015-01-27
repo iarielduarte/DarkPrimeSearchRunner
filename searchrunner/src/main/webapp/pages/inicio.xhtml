@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./template.xhtml">
+
+		<ui:define name="content">
+			<h:form id="formConsulta">
+			<p:panel id="panel2" header="Consulta de Artículos" style="margin-bottom:10px; font-size: 12px;">
+				<p:dataTable id="articuloConsulta" var="item" value="#{articuloMBean.articulos}"
+				selection="#{articuloMBean.selectedArticulo}" 
+				emptyMessage="No hay articulos con este criterio"
+				rows="10"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{articuloMBean.filteredArticulos}" 
+				widgetVar="articuloDataTable">
+				
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="Buscar: " />
+							<p:inputText id="globalFilter" placeholder="Ingrese indeficadores del artículo para filtrar.."
+								onkeyup="articuloDataTable.filter()" style="width:500px" />
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column headerText="Codigo Articulo" style="width:10%" filterBy="#{item.codigoOrigen}" filterMatchMode="contains">
+						<h:outputText value="#{item.codigoOrigen}" />
+					</p:column>
+
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+
+					<p:column headerText="Marca" style="width:20%" filterBy="#{item.marca.nombre}" filterMatchMode="contains">
+						<h:outputText value="#{item.marca.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Codigo Marca" style="width:20%" filterBy="#{item.codigoMarca}" filterMatchMode="contains">
+						<h:outputText value="#{item.codigoMarca}" />
+					</p:column>
+					
+					<p:column headerText="Numero Pieza" style="width:20%" filterBy="#{item.numeroPieza}" filterMatchMode="contains">
+						<h:outputText value="#{item.numeroPieza}" />
+					</p:column>
+					
+					<p:column headerText="Precio Venta" style="width:10%" >
+						<h:outputText value="#{item.precioVenta}" />
+					</p:column>
+					
+					<p:column headerText="Ver" style="width:24%">  
+	                    <p:commandButton id="btnView" update=":formConsulta:display" onclick="articuloDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{articuloMBean.selectedArticulo}" />  
+	                    </p:commandButton>  
+                   </p:column>
+					
+				</p:dataTable>
+				</p:panel>
+			
+			
+			
+				<p:dialog header="Ver Articulo" widgetVar="articuloDialogView"
+					resizable="false" id="articuloDlgView" showEffect="explode" hideEffect="explode" modal="true">
+						
+					<h:panelGrid id="display" columns="2" cellpadding="4" style="margin:0 auto; font-size: 11px;">
+						
+						<h:outputText value="Codigo de Articulo:"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.codigoOrigen}" />
+						
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.nombre}" />
+						
+						<h:outputText value="Grupo:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.grupo.nombre}" />
+						
+						<h:outputText value="Tipo Grupo:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.tipoGrupo.nombre}" />
+						
+						<h:outputText value="Ubicacion:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.ubicacion.nombre}" />
+						
+						<h:outputText value="Procedencia:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.pais.nombre}" />
+						
+						<h:outputText value="Tipo de Iva:"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.tipoIva}" />
+						
+						<h:outputText value="%"/>
+						<h:outputText value="#{articuloMBean.selectedArticulo.iva}" />
+						
+						<h:outputText value="Observacion:" />
+						<h:outputText value="#{articuloMBean.selectedArticulo.observaciones}" />
+						
+						
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>	
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

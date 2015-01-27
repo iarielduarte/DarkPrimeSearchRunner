@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="msgs" showDetail="true" />
+			<h:form>
+			<p:commandButton id="btnAddRol" update=":formAdd"
+			oncomplete="PF('rolDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nuevo Rol"/>
+			
+			<p:commandButton id="btnPrintRol" update=":formPrint"
+			oncomplete="PF('rolDialogPrint').show()" icon="ui-icon-print" title="Imprimir" value="Informe de Roles"/>
+			</h:form>
+			
+			<p:separator></p:separator>
+
+			<h:form id="formDataTable">
+				<p:dataTable id="usu" var="item" value="#{rolMBean.roles}"
+				selection="#{rolMBean.selectedRol}" 
+				emptyMessage="No hay usuarios con este criterio"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{rolMBean.filteredRoles}" 
+				widgetVar="rolDataTable"
+				>
+				
+<!-- 					<f:facet name="header"> -->
+<!-- 						<p:outputPanel> -->
+<!-- 							<h:outputText value="Buscar: " /> -->
+<!-- 							<p:inputText id="globalFilter" -->
+<!-- 								onkeyup="rolDataTable.filter()" style="width:500px" /> -->
+<!-- 						</p:outputPanel> -->
+<!-- 					</f:facet> -->
+
+					<p:column headerText="Id" style="width:6%" filterBy="#{item.id}" sortBy="#{item.id}">
+						<h:outputText value="#{item.id}"  />
+					</p:column>
+
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains" sortBy="#{item.nombre}">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+
+					
+					<p:column headerText="Ver" style="width:32px">  
+	                    <p:commandButton id="btnView" update=":formView:display" onclick="rolDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{rolMBean.selectedRol}" />  
+	                    </p:commandButton>  
+                   </p:column>
+
+					<p:column headerText="Editar" style="width:32px">
+						<p:commandButton id="btnUpdate" update=":formUpdate" oncomplete="rolDialogUpdate.show()" icon="ui-icon-pencil" title="Modificar">
+							<f:setPropertyActionListener value="#{item}" target="#{rolMBean.selectedRol}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Borrar" style="width:32px">
+						<p:commandButton id="btnDelete" update=":formDelete" oncomplete="rolDialogDelete.show()" icon="ui-icon-trash"	title="Eliminar">
+							<f:setPropertyActionListener value="#{item}" target="#{rolMBean.selectedRol}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+			
+			<h:form id="formAdd">
+				<p:dialog header="Agregar Rol" widgetVar="rolDialogAdd"
+					resizable="false" id="rolDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText id="nombre"  value="#{rolMBean.nombre}" required="true" label="Nombre"
+						requiredMessage="Nombre es un campo obligatorio" />
+						
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('rolDialogAdd').hide()" actionListener="#{rolMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnAddCancel" oncomplete="PF('rolDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Rol" widgetVar="rolDialogUpdate"
+					resizable="false" id="rolDlgUpdate" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<p:inputText value="#{rolMBean.selectedRol.id}" disabled="true"/>
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{rolMBean.selectedRol.nombre}" required="true" label="Falta nombre de rol" requiredMessage="Falta nombre de rol" />
+
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnUpdateSave" update=":formDataTable, :msgs" oncomplete="PF('rolDialogUpdate').hide()" actionListener="#{rolMBean.onEdit(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnUpdateCancel" oncomplete="PF('rolDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formDelete">
+			<p:confirmDialog id="confirmDialog" showEffect="fade" hideEffect="explode" severity="alert" widgetVar="rolDialogDelete"
+				message="¿Estas seguro que desea eliminar?" header="Confirmar Eliminado" icon="ui-icon-alert">  
+        			
+        			<p:commandButton id="confirm" value="Si" icon="ui-icon-check"
+        			update=":formDataTable, :msgs" actionListener="#{rolMBean.onDelete(actionEvent)}" oncomplete="rolDialogDelete.hide()"  />  
+        			
+        			<p:commandButton id="decline" value="No" type="button" icon="ui-icon-close" onclick="rolDialogDelete.hide()"/>       
+    			</p:confirmDialog> 
+				 
+			</h:form>
+			
+			<h:form id="formView">
+				<p:dialog header="Ver Rol" widgetVar="rolDialogView"
+					resizable="false" id="rolDlgView" showEffect="explode" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<h:outputText value="#{rolMBean.selectedRol.id}" />
+
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{rolMBean.selectedRol.nombre}" />
+						
+
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formPrint">
+				<p:dialog header="Informe de Roles" widgetVar="rolDialogPrint" sortMode="multiple"
+					resizable="false" id="rolDlgPrint" showEffect="fade" hideEffect="explode" modal="true">
+				<p:dataTable id="usuprint" var="item" value="#{rolMBean.roles}" 
+							selection="#{rolMBean.selectedRol}" 
+			                emptyMessage="No hay usuarios con este criterio"
+			                paginator="true" rows="10"
+			                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			                paginatorPosition="bottom"
+			                rowKey="#{item.id}"
+			                selectionMode="single"
+			                filteredValue="#{rolMBean.filteredRoles}" 
+			               >
+							<p:column style="width:6%" sortBy="#{item.id}">
+								<f:facet name="header">  
+	            					<h:outputText value="Id" />  
+	       						</f:facet> 
+								<h:outputText value="#{item.id}" />
+							</p:column>
+
+							<p:column style="width:24%" sortBy="#{item.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Nombre" />  
+	       						</f:facet>
+								<h:outputText value="#{item.nombre}" />
+							</p:column>
+
+				</p:dataTable>
+
+
+					<h:panelGrid columns="2">
+						<p:panel header="Exportar todo">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="usuprint" fileName="Roles" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target=":formPrint:usuprint"
+									fileName="Roles" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target="usuprint" fileName="Roles" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/xml.png" />
+								<p:dataExporter type="xml" target="usuprint" fileName="Roles" />
+							</h:commandLink>
+						</p:panel>
+
+						<p:panel header="Exportar pagina">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="usuprint" fileName="Roles"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target="usuprint" fileName="Roles"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target="usuprint" fileName="Roles"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/xml.png" />
+								<p:dataExporter type="xml" target="usuprint" fileName="Roles"
+									pageOnly="true" />
+							</h:commandLink>
+						</p:panel>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

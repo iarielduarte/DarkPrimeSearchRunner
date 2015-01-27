@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="msgs" showDetail="true" />
+			<h:form>
+			<p:commandButton id="btnAddUbicacion" update=":formAdd"
+			oncomplete="PF('ubicacionDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nuevo Ubicacion"/>
+			
+			<p:commandButton id="btnPrintUbicacion" update=":formPrint"
+			oncomplete="PF('ubicacionDialogPrint').show()" icon="ui-icon-print" title="Imprimir" value="Informe de Ubicaciones"/>
+			</h:form>
+			
+			<p:separator></p:separator>
+
+			<h:form id="formDataTable">
+				<p:dataTable id="ubicacionTable" var="item" value="#{ubicacionMBean.ubicaciones}"
+				selection="#{ubicacionMBean.selectedUbicacion}" 
+				emptyMessage="No hay ubicaciones con este criterio"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{ubicacionMBean.filteredUbicaciones}" 
+				widgetVar="ubicacionDataTable"
+				>
+				
+<!-- 					<f:facet name="header"> -->
+<!-- 						<p:outputPanel> -->
+<!-- 							<h:outputText value="Buscar: " /> -->
+<!-- 							<p:inputText id="globalFilter" -->
+<!-- 								onkeyup="ubicacionDataTable.filter()" style="width:500px" /> -->
+<!-- 						</p:outputPanel> -->
+<!-- 					</f:facet> -->
+
+					<p:column headerText="Id" style="width:6%" filterBy="#{item.id}" sortBy="#{item.id}">
+						<h:outputText value="#{item.id}"  />
+					</p:column>
+
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains" sortBy="#{item.nombre}">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+
+					
+					<p:column headerText="Ver" style="width:32px">  
+	                    <p:commandButton id="btnView" update=":formView:display" onclick="ubicacionDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{ubicacionMBean.selectedUbicacion}" />  
+	                    </p:commandButton>  
+                   </p:column>
+
+					<p:column headerText="Editar" style="width:32px">
+						<p:commandButton id="btnUpdate" update=":formUpdate" oncomplete="ubicacionDialogUpdate.show()" icon="ui-icon-pencil" title="Modificar">
+							<f:setPropertyActionListener value="#{item}" target="#{ubicacionMBean.selectedUbicacion}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Borrar" style="width:32px">
+						<p:commandButton id="btnDelete" update=":formDelete" oncomplete="ubicacionDialogDelete.show()" icon="ui-icon-trash"	title="Eliminar">
+							<f:setPropertyActionListener value="#{item}" target="#{ubicacionMBean.selectedUbicacion}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+			
+			<h:form id="formAdd">
+				<p:dialog header="Agregar Ubicacion" widgetVar="ubicacionDialogAdd"
+					resizable="false" id="ubicacionDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText id="nombre"  value="#{ubicacionMBean.nombre}" required="true" label="Nombre"
+						requiredMessage="Nombre es un campo obligatorio" />
+						
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('ubicacionDialogAdd').hide()" actionListener="#{ubicacionMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnAddCancel" oncomplete="PF('ubicacionDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Ubicacion" widgetVar="ubicacionDialogUpdate"
+					resizable="false" id="ubicacionDlgUpdate" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<p:inputText value="#{ubicacionMBean.selectedUbicacion.id}" disabled="true"/>
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{ubicacionMBean.selectedUbicacion.nombre}" required="true" label="Nombre" requiredMessage="Nombre es un campo obligatorio" />
+
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnUpdateSave" update=":formDataTable, :msgs" oncomplete="PF('ubicacionDialogUpdate').hide()" actionListener="#{ubicacionMBean.onEdit(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnUpdateCancel" oncomplete="PF('ubicacionDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formDelete">
+			<p:confirmDialog id="confirmDialog" showEffect="fade" hideEffect="explode" severity="alert" widgetVar="ubicacionDialogDelete"
+				message="¿Estas seguro que desea eliminar?" header="Confirmar Eliminado" icon="ui-icon-alert">  
+        			
+        			<p:commandButton id="confirm" value="Si" icon="ui-icon-check"
+        			update=":formDataTable, :msgs" actionListener="#{ubicacionMBean.onDelete(actionEvent)}" oncomplete="ubicacionDialogDelete.hide()"  />  
+        			
+        			<p:commandButton id="decline" value="No" type="button" icon="ui-icon-close" onclick="ubicacionDialogDelete.hide()"/>       
+    			</p:confirmDialog> 
+				 
+			</h:form>
+			
+			<h:form id="formView">
+				<p:dialog header="Ver Ubicacion" widgetVar="ubicacionDialogView"
+					resizable="false" id="ubicacionDlgView" showEffect="explode" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<h:outputText value="#{ubicacionMBean.selectedUbicacion.id}" />
+
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{ubicacionMBean.selectedUbicacion.nombre}" />
+						
+
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formPrint">
+				<p:dialog header="Informe de Ubicaciones" widgetVar="ubicacionDialogPrint" sortMode="multiple"
+					resizable="false" id="ubicacionDlgPrint" showEffect="fade" hideEffect="explode" modal="true">
+				<p:dataTable id="ubicacionprint" var="item" value="#{ubicacionMBean.ubicaciones}" 
+							selection="#{ubicacionMBean.selectedUbicacion}" 
+			                emptyMessage="No hay Ubicaciones con este criterio"
+			                paginator="true" rows="10"
+			                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			                paginatorPosition="bottom"
+			                rowKey="#{item.id}"
+			                selectionMode="single"
+			                filteredValue="#{ubicacionMBean.filteredUbicaciones}" 
+			               >
+							<p:column style="width:6%" sortBy="#{item.id}">
+								<f:facet name="header">  
+	            					<h:outputText value="Id" />  
+	       						</f:facet> 
+								<h:outputText value="#{item.id}" />
+							</p:column>
+
+							<p:column style="width:24%" sortBy="#{item.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Nombre" />  
+	       						</f:facet>
+								<h:outputText value="#{item.nombre}" />
+							</p:column>
+
+				</p:dataTable>
+
+
+					<h:panelGrid columns="2">
+						<p:panel header="Exportar todo">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="ubicacionprint" fileName="Ubicaciones" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target=":formPrint:ubicacionprint"
+									fileName="Ubicaciones" />
+							</h:commandLink>
+
+						</p:panel>
+
+						<p:panel header="Exportar pagina">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="ubicacionprint" fileName="Ubicaciones"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target="ubicacionprint" fileName="Ubicaciones"
+									pageOnly="true" />
+							</h:commandLink>
+
+						</p:panel>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
