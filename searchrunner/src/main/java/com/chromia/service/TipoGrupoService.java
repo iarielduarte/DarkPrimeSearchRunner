@@ -16,19 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.TipoGrupo;
 import com.chromia.repository.TipoGrupoDao;
 
-
-
 @Service("TipoGrupoService")
 @Transactional(readOnly = true)
-public class TipoGrupoService implements ITipoGrupoService, Serializable{
-	
-	
+public class TipoGrupoService implements ITipoGrupoService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private TipoGrupoDao tipoGrupoDao;
-	
-	
+
 	public TipoGrupoDao getTipoGrupoDao() {
 		return tipoGrupoDao;
 	}
@@ -98,6 +94,5 @@ public class TipoGrupoService implements ITipoGrupoService, Serializable{
 	public List<TipoGrupo> getTipoGruposByGrupo(int id) {
 		return getTipoGrupoDao().getTipoGruposByGrupo(id);
 	}
-
 
 }

@@ -13,9 +13,13 @@ import com.chromia.model.Grupo;
 public interface IGrupoDao {
 
 	public void addGrupo(Grupo grupo);
+
 	public void updateGrupo(Grupo grupo);
+
 	public void deleteGrupo(Grupo grupo);
+
 	public Grupo getGrupoById(int id);
+
 	public List<Grupo> getGrupos();
-	
+
 }

@@ -16,18 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Grupo;
 import com.chromia.repository.GrupoDao;
 
-
 @Service("GrupoService")
 @Transactional(readOnly = true)
-public class GrupoService implements IGrupoService, Serializable{
-	
-	
+public class GrupoService implements IGrupoService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private GrupoDao grupoDao;
-	
-	
+
 	public GrupoDao getGrupoDao() {
 		return grupoDao;
 	}
@@ -92,6 +89,5 @@ public class GrupoService implements IGrupoService, Serializable{
 	public List<Grupo> getGrupos() {
 		return getGrupoDao().getGrupos();
 	}
-
 
 }

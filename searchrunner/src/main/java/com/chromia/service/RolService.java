@@ -10,18 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Rol;
 import com.chromia.repository.RolDao;
 
-
 @Service("RolService")
 @Transactional(readOnly = true)
-public class RolService implements IRolService, Serializable{
-	
-	
+public class RolService implements IRolService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private RolDao rolDao;
-	
-	
+
 	public RolDao getRolDao() {
 		return rolDao;
 	}
@@ -86,6 +83,5 @@ public class RolService implements IRolService, Serializable{
 	public List<Rol> getRols() {
 		return getRolDao().getRols();
 	}
-
 
 }

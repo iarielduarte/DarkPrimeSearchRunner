@@ -16,18 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Articulo;
 import com.chromia.repository.ArticuloDao;
 
-
 @Service("ArticuloService")
 @Transactional(readOnly = true)
-public class ArticuloService implements IArticuloService, Serializable{
-	
-	
+public class ArticuloService implements IArticuloService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private ArticuloDao articuloDao;
-	
-	
+
 	public ArticuloDao getArticuloDao() {
 		return articuloDao;
 	}
@@ -102,6 +99,5 @@ public class ArticuloService implements IArticuloService, Serializable{
 	public Articulo getArticuloByName(String name) {
 		return getArticuloDao().getArticuloByName(name);
 	}
-
 
 }

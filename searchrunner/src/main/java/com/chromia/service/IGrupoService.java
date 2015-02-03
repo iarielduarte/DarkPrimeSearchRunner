@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.chromia.model.Grupo;
 
-
 /**
  * @author Ariel Duarte
  * @since 29-Marzo-2014
@@ -18,11 +17,15 @@ import com.chromia.model.Grupo;
  */
 
 public interface IGrupoService {
-	
+
 	public boolean addGrupo(Grupo grupo);
+
 	public boolean updateGrupo(Grupo grupo);
+
 	public boolean deleteGrupo(Grupo grupo);
+
 	public Grupo getGrupoById(int id);
+
 	public List<Grupo> getGrupos();
-	
+
 }

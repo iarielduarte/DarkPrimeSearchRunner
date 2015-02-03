@@ -16,19 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Ubicacion;
 import com.chromia.repository.UbicacionDao;
 
-
-
 @Service("UbicacionService")
 @Transactional(readOnly = true)
-public class UbicacionService implements IUbicacionService, Serializable{
-	
-	
+public class UbicacionService implements IUbicacionService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private UbicacionDao ubicacionDao;
-	
-	
+
 	public UbicacionDao getUbicacionDao() {
 		return ubicacionDao;
 	}
@@ -93,6 +89,5 @@ public class UbicacionService implements IUbicacionService, Serializable{
 	public List<Ubicacion> getUbicaciones() {
 		return getUbicacionDao().getUbicaciones();
 	}
-
 
 }

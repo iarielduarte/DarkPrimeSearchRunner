@@ -13,10 +13,15 @@ import com.chromia.model.TipoGrupo;
 public interface ITipoGrupoDao {
 
 	public void addTipoGrupo(TipoGrupo tipoGrupo);
+
 	public void updateTipoGrupo(TipoGrupo tipoGrupo);
+
 	public void deleteTipoGrupo(TipoGrupo tipoGrupo);
+
 	public TipoGrupo getTipoGrupoById(int id);
+
 	public List<TipoGrupo> getTipoGrupos();
+
 	public List<TipoGrupo> getTipoGruposByGrupo(int id);
-	
+
 }

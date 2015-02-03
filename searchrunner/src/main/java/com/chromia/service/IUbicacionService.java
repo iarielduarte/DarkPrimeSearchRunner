@@ -10,8 +10,6 @@ import java.util.List;
 
 import com.chromia.model.Ubicacion;
 
-
-
 /**
  * @author Ariel Duarte
  * @since 29-Marzo-2014
@@ -19,11 +17,15 @@ import com.chromia.model.Ubicacion;
  */
 
 public interface IUbicacionService {
-	
+
 	public boolean addUbicacion(Ubicacion ubicacion);
+
 	public boolean updateUbicacion(Ubicacion ubicacion);
+
 	public boolean deleteUbicacion(Ubicacion ubicacion);
+
 	public Ubicacion getUbicacionById(int id);
+
 	public List<Ubicacion> getUbicaciones();
-	
+
 }

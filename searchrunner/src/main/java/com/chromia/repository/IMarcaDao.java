@@ -13,9 +13,13 @@ import com.chromia.model.Marca;
 public interface IMarcaDao {
 
 	public void addMarca(Marca marca);
+
 	public void updateMarca(Marca marca);
+
 	public void deleteMarca(Marca marca);
+
 	public Marca getMarcaById(int id);
+
 	public List<Marca> getMarcas();
-	
+
 }

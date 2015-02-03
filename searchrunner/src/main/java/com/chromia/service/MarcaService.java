@@ -16,19 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Marca;
 import com.chromia.repository.MarcaDao;
 
-
-
 @Service("MarcaService")
 @Transactional(readOnly = true)
-public class MarcaService implements IMarcaService, Serializable{
-	
-	
+public class MarcaService implements IMarcaService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private MarcaDao marcaDao;
-	
-	
+
 	public MarcaDao getMarcaDao() {
 		return marcaDao;
 	}
@@ -93,6 +89,5 @@ public class MarcaService implements IMarcaService, Serializable{
 	public List<Marca> getMarcas() {
 		return getMarcaDao().getMarcas();
 	}
-
 
 }

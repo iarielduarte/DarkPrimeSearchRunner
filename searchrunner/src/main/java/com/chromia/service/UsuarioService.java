@@ -9,16 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Usuario;
 import com.chromia.repository.UsuarioDao;
 
-
 @Service("UsuarioService")
 @Transactional(readOnly = true)
 public class UsuarioService implements IUsuarioService {
 
-	
 	@Autowired
 	private UsuarioDao usuarioDao;
 
-	
 	public UsuarioDao getUsuarioDao() {
 		return usuarioDao;
 	}
@@ -26,7 +23,7 @@ public class UsuarioService implements IUsuarioService {
 	public void setUsuarioDao(UsuarioDao usuarioDao) {
 		this.usuarioDao = usuarioDao;
 	}
-	
+
 	@Transactional
 	public boolean addUsuario(Usuario usuario) {
 		boolean success = false;
@@ -71,7 +68,6 @@ public class UsuarioService implements IUsuarioService {
 		}
 		return success;
 	}
-
 
 	@Transactional
 	public Usuario getUsuarioById(int id) {

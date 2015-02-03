@@ -6,8 +6,6 @@ package com.chromia.model;
  * @version 1.0.0
  */
 
-import java.sql.Blob;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

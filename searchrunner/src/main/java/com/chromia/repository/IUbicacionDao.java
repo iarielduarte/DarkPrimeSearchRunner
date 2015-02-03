@@ -13,9 +13,13 @@ import com.chromia.model.Ubicacion;
 public interface IUbicacionDao {
 
 	public void addUbicacion(Ubicacion ubicacion);
+
 	public void updateUbicacion(Ubicacion ubicacion);
+
 	public void deleteUbicacion(Ubicacion ubicacion);
+
 	public Ubicacion getUbicacionById(int id);
+
 	public List<Ubicacion> getUbicaciones();
-	
+
 }

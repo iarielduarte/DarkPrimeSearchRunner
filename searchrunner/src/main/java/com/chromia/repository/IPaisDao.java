@@ -13,9 +13,13 @@ import com.chromia.model.Pais;
 public interface IPaisDao {
 
 	public void addPais(Pais pais);
+
 	public void updatePais(Pais pais);
+
 	public void deletePais(Pais pais);
+
 	public Pais getPaisById(int id);
+
 	public List<Pais> getPaises();
-	
+
 }

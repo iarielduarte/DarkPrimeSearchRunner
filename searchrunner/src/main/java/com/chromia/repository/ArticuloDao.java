@@ -1,12 +1,10 @@
 package com.chromia.repository;
 
-
 /**
  * @author Ariel Duarte
  * @since 29-Marzo-2014
  * @version 1.0.0
  */
-
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,12 +22,10 @@ import com.chromia.model.Articulo;
 @Repository("ArticuloDao")
 public class ArticuloDao implements IArticuloDao, Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
-	
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
@@ -42,36 +38,40 @@ public class ArticuloDao implements IArticuloDao, Serializable {
 	@Override
 	public void addArticulo(Articulo articulo) {
 		getSessionFactory().getCurrentSession().save(articulo);
-		
+
 	}
 
 	@Override
 	public void updateArticulo(Articulo articulo) {
 		getSessionFactory().getCurrentSession().merge(articulo);
-		
+
 	}
 
 	@Override
 	public void deleteArticulo(Articulo articulo) {
 		getSessionFactory().getCurrentSession().delete(articulo);
-		
+
 	}
 
 	@Override
 	public Articulo getArticuloById(int id) {
-		Query query = getSessionFactory().getCurrentSession().getNamedQuery(Articulo.GET_ARTICULO_BY_ID).setInteger("id", id);
+		Query query = getSessionFactory().getCurrentSession()
+				.getNamedQuery(Articulo.GET_ARTICULO_BY_ID)
+				.setInteger("id", id);
 		return (Articulo) query.uniqueResult();
 	}
 
 	@Override
 	public List<Articulo> getArticulos() {
-		Query query = getSessionFactory().getCurrentSession().getNamedQuery(Articulo.GET_ALL_ARTICULOS);
+		Query query = getSessionFactory().getCurrentSession().getNamedQuery(
+				Articulo.GET_ALL_ARTICULOS);
 		return (List<Articulo>) query.list();
 	}
 
 	@Override
 	public Integer getMaxId() {
-		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Articulo.class);
+		Criteria criteria = getSessionFactory().getCurrentSession()
+				.createCriteria(Articulo.class);
 		criteria.setProjection(Projections.max("id"));
 		Integer maxId = (Integer) criteria.list().get(0);
 		return maxId;
@@ -79,10 +79,10 @@ public class ArticuloDao implements IArticuloDao, Serializable {
 
 	@Override
 	public Articulo getArticuloByName(String name) {
-		Criteria criteria = getSessionFactory().getCurrentSession().createCriteria(Articulo.class);
+		Criteria criteria = getSessionFactory().getCurrentSession()
+				.createCriteria(Articulo.class);
 		criteria.add(Restrictions.eq("nombre", name));
 		return (Articulo) criteria.uniqueResult();
 	}
-	
-	
+
 }

@@ -12,9 +12,13 @@ import com.chromia.model.Rol;
 public interface IRolDao {
 
 	public void addRol(Rol rol);
+
 	public void updateRol(Rol rol);
+
 	public void deleteRol(Rol rol);
+
 	public Rol getRolById(int id);
+
 	public List<Rol> getRols();
-	
+
 }

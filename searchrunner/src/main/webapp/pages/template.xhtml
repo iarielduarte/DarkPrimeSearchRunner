@@ -30,6 +30,12 @@
 					<p:menuitem label="Home" icon="ui-icon-home" url="#{appMBean.urlHome}"/>
 					
 					<p:submenu label="Sistema" icon="ui-icon-gear">
+					
+						<p:submenu label="Mantenimiento" icon="ui-icon-person"> 
+							<p:menuitem value="Ciudades" url="#{appMBean.urlMantenimientoPage}ciudad.xhtml" /> 
+							<p:menuitem value="Categorias" url="#{appMBean.urlMantenimientoPage}categoria.xhtml" /> 
+							<p:menuitem value="Clientes" url="#{appMBean.urlMantenimientoPage}cliente.xhtml" /> 
+						</p:submenu> 
 						<p:submenu label="Seguridad" icon="ui-icon-contact">
 							<p:menuitem value="Usuarios" url="#{appMBean.urlSeguridadPage}usuario.xhtml" />
 							<p:menuitem value="Roles" url="#{appMBean.urlSeguridadPage}rol.xhtml" />

@@ -6,7 +6,6 @@ package com.chromia.model;
  * @version 1.0.0
  */
 
-
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,38 +16,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.NamedQuery;
-
-
 
 @Entity
-@Table(name="UBICACION")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQueries(
-		{
-			@NamedQuery(name=Ubicacion.GET_UBICACION_BY_ID, query=Ubicacion.GET_UBICACION_BY_ID_QUERY),
-			@NamedQuery(name=Ubicacion.GET_ALL_UBICACIONES, query=Ubicacion.GET_ALL_UBICACIONES_QUERY)
-		}
-)
+@Table(name = "UBICACION")
+// @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@NamedQueries({
+		@NamedQuery(name = Ubicacion.GET_UBICACION_BY_ID, query = Ubicacion.GET_UBICACION_BY_ID_QUERY),
+		@NamedQuery(name = Ubicacion.GET_ALL_UBICACIONES, query = Ubicacion.GET_ALL_UBICACIONES_QUERY) })
 public class Ubicacion {
 
-	static final String GET_UBICACION_BY_ID_QUERY = "from Ubicacion U where U.id = :id"; 
-	public static final String GET_UBICACION_BY_ID = "GET_UBICACION_BY_ID"; 
-	
-	static final String GET_ALL_UBICACIONES_QUERY = "from Ubicacion"; 
+	static final String GET_UBICACION_BY_ID_QUERY = "from Ubicacion U where U.id = :id";
+	public static final String GET_UBICACION_BY_ID = "GET_UBICACION_BY_ID";
+
+	static final String GET_ALL_UBICACIONES_QUERY = "from Ubicacion";
 	public static final String GET_ALL_UBICACIONES = "GET_ALL_UBICACIONES";
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ubica_codigo")
 	private Integer id;
-	
-	@Column(name="ubica_nombre")
+
+	@Column(name = "ubica_nombre")
 	private String nombre;
-	
-	@OneToMany(mappedBy="ubicacion", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+
+	@OneToMany(mappedBy = "ubicacion", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Articulo> articulos;
 
 	public List<Articulo> getArticulos() {
@@ -74,11 +68,5 @@ public class Ubicacion {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
 
-	
-	
-	
-	
-	
 }

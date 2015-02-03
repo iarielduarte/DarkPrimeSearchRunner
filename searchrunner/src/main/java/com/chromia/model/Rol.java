@@ -17,37 +17,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.NamedQuery;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 
 @Entity
-@Table(name="ROL")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@NamedQueries(
-		{
-			@NamedQuery(name=Rol.GET_ROL_BY_ID, query=Rol.GET_ROL_BY_ID_QUERY),
-			@NamedQuery(name=Rol.GET_ALL_ROLS, query=Rol.GET_ALL_ROLS_QUERY)
-		}
-)
+@Table(name = "ROL")
+// @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@NamedQueries({
+		@NamedQuery(name = Rol.GET_ROL_BY_ID, query = Rol.GET_ROL_BY_ID_QUERY),
+		@NamedQuery(name = Rol.GET_ALL_ROLS, query = Rol.GET_ALL_ROLS_QUERY) })
 public class Rol {
 
-	static final String GET_ROL_BY_ID_QUERY = "from Rol r where r.id = :id"; 
-	public static final String GET_ROL_BY_ID = "GET_ROL_BY_ID"; 
-	
-	static final String GET_ALL_ROLS_QUERY = "from Rol"; 
+	static final String GET_ROL_BY_ID_QUERY = "from Rol r where r.id = :id";
+	public static final String GET_ROL_BY_ID = "GET_ROL_BY_ID";
+
+	static final String GET_ALL_ROLS_QUERY = "from Rol";
 	public static final String GET_ALL_ROLS = "GET_ALL_ROLS";
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ROL_ID")
 	private Integer id;
-	
-	@Column(name="ROL_NOMBRE")
+
+	@Column(name = "ROL_NOMBRE")
 	private String nombre;
 
 	public Integer getId() {
@@ -65,9 +58,9 @@ public class Rol {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	
-	@OneToMany(mappedBy="rol", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    private List<Usuario> usuarios = new ArrayList<Usuario>();
+
+	@OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	public List<Usuario> getUsuarios() {
 		return usuarios;
@@ -76,8 +69,5 @@ public class Rol {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
-	
-	
-	
+
 }

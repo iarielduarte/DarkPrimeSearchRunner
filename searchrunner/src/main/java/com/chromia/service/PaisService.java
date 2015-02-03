@@ -16,18 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.chromia.model.Pais;
 import com.chromia.repository.PaisDao;
 
-
 @Service("PaisService")
 @Transactional(readOnly = true)
-public class PaisService implements IPaisService, Serializable{
-	
-	
+public class PaisService implements IPaisService, Serializable {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private PaisDao paisDao;
-	
-	
+
 	public PaisDao getPaisDao() {
 		return paisDao;
 	}
@@ -92,6 +89,5 @@ public class PaisService implements IPaisService, Serializable{
 	public List<Pais> getPaises() {
 		return getPaisDao().getPaises();
 	}
-
 
 }
