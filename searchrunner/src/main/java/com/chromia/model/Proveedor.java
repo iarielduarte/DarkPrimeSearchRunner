@@ -16,7 +16,9 @@ import javax.persistence.Table;
 @Table(name = "PROVEEDOR")
 @NamedQueries({
 		@NamedQuery(name = Proveedor.GET_PROVEEDOR_BY_ID, query = Proveedor.GET_PROVEEDOR_BY_ID_QUERY),
-		@NamedQuery(name = Proveedor.GET_ALL_PROVEEDORES, query = Proveedor.GET_ALL_PROVEEDORES_QUERY) })
+		@NamedQuery(name = Proveedor.GET_ALL_PROVEEDORES, query = Proveedor.GET_ALL_PROVEEDORES_QUERY),
+		@NamedQuery(name = Proveedor.GET_PROVEEDOR_BY_CIUDAD_ID, query = Proveedor.GET_PROVEEDOR_BY_CIUDAD_ID_QUERY),
+		@NamedQuery(name = Proveedor.GET_PROVEEDOR_BY_PAIS_ID, query = Proveedor.GET_PROVEEDOR_BY_PAIS_ID_QUERY)})
 public class Proveedor {
 
 	static final String GET_PROVEEDOR_BY_ID_QUERY = "FROM Proveedor P LEFT JOIN FETCH P.ciudad C LEFT JOIN FETCH P.pais T WHERE P.id = :id";
@@ -24,6 +26,12 @@ public class Proveedor {
 
 	static final String GET_ALL_PROVEEDORES_QUERY = "FROM Proveedor P LEFT JOIN FETCH P.ciudad C LEFT JOIN FETCH P.pais T";
 	public static final String GET_ALL_PROVEEDORES = "GET_ALL_PROVEEDORES";
+	
+	static final String GET_PROVEEDOR_BY_CIUDAD_ID_QUERY = "SELECT P FROM Proveedor P LEFT JOIN FETCH P.ciudad AS C where C.id = :id";
+	public static final String GET_PROVEEDOR_BY_CIUDAD_ID = "GET_PROVEEDOR_BY_CIUDAD_ID";
+
+	static final String GET_PROVEEDOR_BY_PAIS_ID_QUERY = "SELECT P FROM Proveedor P LEFT JOIN FETCH P.pais AS I where I.id = :id";
+	public static final String GET_PROVEEDOR_BY_PAIS_ID = "GET_PROVEEDOR_BY_PAIS_ID";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +65,85 @@ public class Proveedor {
 	private String email;
 
 	@Column(name = "pro_iva", unique = true)
-	private Integer pro_iva;
+	private Integer iva;
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Ciudad getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	public Pais getPais() {
+		return pais;
+	}
+
+	public void setPais(Pais pais) {
+		this.pais = pais;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getRuc() {
+		return ruc;
+	}
+
+	public void setRuc(String ruc) {
+		this.ruc = ruc;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Integer getIva() {
+		return iva;
+	}
+
+	public void setIva(Integer iva) {
+		this.iva = iva;
+	}
 }

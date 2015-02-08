@@ -8,10 +8,11 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.chromia.model.Cliente;
 import com.chromia.model.Proveedor;
 
 @Repository("ProveedorDao")
-public class ProveedorDao implements IProveedor, Serializable {
+public class ProveedorDao implements IProveedorDao, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -56,6 +57,22 @@ public class ProveedorDao implements IProveedor, Serializable {
 	public List<Proveedor> getProveedores() {
 		Query query = getSessionFactory().getCurrentSession().getNamedQuery(
 				Proveedor.GET_ALL_PROVEEDORES);
+		return (List<Proveedor>) query.list();
+	}
+
+	@Override
+	public List<Proveedor> getProveedoresByPais(int id) {
+		Query query = getSessionFactory().getCurrentSession()
+				.getNamedQuery(Proveedor.GET_PROVEEDOR_BY_PAIS_ID)
+				.setInteger("id", id);
+		return (List<Proveedor>) query.list();
+	}
+
+	@Override
+	public List<Proveedor> getProveedoresByCiudad(int id) {
+		Query query = getSessionFactory().getCurrentSession()
+				.getNamedQuery(Proveedor.GET_PROVEEDOR_BY_CIUDAD_ID)
+				.setInteger("id", id);
 		return (List<Proveedor>) query.list();
 	}
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.chromia.model.Proveedor;
 
-public interface IProveedor {
+public interface IProveedorDao {
 
 	public void addProveedor(Proveedor proveedor);
 
@@ -15,4 +15,8 @@ public interface IProveedor {
 	public Proveedor getProveedorById(int id);
 
 	public List<Proveedor> getProveedores();
+
+	public List<Proveedor> getProveedoresByPais(int id);
+
+	public List<Proveedor> getProveedoresByCiudad(int id);
 }

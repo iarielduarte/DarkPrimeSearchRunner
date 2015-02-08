@@ -45,27 +45,22 @@
 						<h:outputText value="#{item.nombre}" />
 					</p:column>
 					
-					<p:column headerText="Ruc" style="width:24%" filterBy="#{item.ruc}" filterMatchMode="contains" sortBy="#{item.ruc}">
+					<p:column headerText="Ruc" filterBy="#{item.ruc}" style="width:20%" filterMatchMode="contains" sortBy="#{item.ruc}">
 						<h:outputText value="#{item.ruc}" />
 					</p:column>
 
-					<p:column headerText="Categoria" style="width:24%" filterBy="#{item.categoria.nombre}" filterMatchMode="contains" >
+					<p:column headerText="Categoria" style="width:20%" filterBy="#{item.categoria.nombre}" filterMatchMode="contains" >
 						<h:outputText value="#{item.categoria.nombre}" />
 					</p:column>
 					
-					<p:column headerText="Teléfono" style="width:24%" >
+					<p:column headerText="Teléfono" style="width:20%" >
 						<h:outputText value="#{item.telefono}" />
 					</p:column>
 					
-					<p:column headerText="Celular" style="width:24%" >
+					<p:column headerText="Celular" style="width:20%" >
 						<h:outputText value="#{item.celular}" />
 					</p:column>
 					
-					<p:column headerText="Email" style="width:24%" >
-						<h:outputText value="#{item.email}" />
-					</p:column>
-					
-
 					<p:column headerText="Ver" style="width:32px">  
 	                    <p:commandButton id="btnView" update=":formView:display" onclick="clienteDialogView.show()" icon="ui-icon-search">  
 	                        <f:setPropertyActionListener value="#{item}"  target="#{clienteMBean.selectedCliente}" />  
@@ -103,10 +98,10 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{clienteMBean.nombre}"	required="true" label="Nombre" requiredMessage="El nombre es un campo obligatorio" />
+						<p:inputText value="#{clienteMBean.nombre}"	size="30" required="true" label="Nombre" requiredMessage="El nombre es un campo obligatorio" />
 
 						<h:outputText value="Ruc o Cedula:*" />
-						<p:inputText value="#{clienteMBean.ruc}"	required="true" label="Ruc" requiredMessage="El RUC es un campo obligatorio" />
+						<p:inputText value="#{clienteMBean.ruc}" size="30" required="true" label="Ruc" requiredMessage="El RUC es un campo obligatorio" />
 						
 						<h:outputText value="Ciudad:*"/>
 						<p:selectOneMenu value="#{clienteMBean.ciudadId}" panelStyle="width:150px" effect="fade" style="width:160px"
@@ -116,16 +111,16 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Dirección:" />
-						<p:inputText value="#{clienteMBean.direccion}" label="Direccion" />
+						<p:inputText value="#{clienteMBean.direccion}" label="Direccion" size="50" />
 						
 						<h:outputText value="Teléfono:" />
-						<p:inputText value="#{clienteMBean.telefono}" label="Telefono" />
+						<p:inputText value="#{clienteMBean.telefono}" label="Telefono" size="30" />
 						
 						<h:outputText value="Célular:" />
-						<p:inputText value="#{clienteMBean.celular}" label="Celular" />
+						<p:inputText value="#{clienteMBean.celular}" label="Celular" size="30" />
 						
 						<h:outputText value="Email:" />
-						<p:inputText value="#{clienteMBean.email}" label="Email" />
+						<p:inputText value="#{clienteMBean.email}" label="Email" size="30" />
 						
 						<h:outputLabel value="Comentarios: " />
 						<p:inputTextarea id="obs" value="#{clienteMBean.comentario}" rows="6" cols="33" counter="counter" maxlength="255"       
@@ -163,10 +158,10 @@
 						
 						
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{clienteMBean.selectedCliente.nombre}" required="true" label="Nombre" requiredMessage="El campo nombre es obligatorio"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.nombre}" size="30" required="true" label="Nombre" requiredMessage="El campo nombre es obligatorio"/>
 
 						<h:outputText value="Ruc o Cédula:*" />
-						<p:inputText value="#{clienteMBean.selectedCliente.ruc}" required="true" label="Cedula" requiredMessage="El campo Ruc es obligatorio"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.ruc}" size="30" required="true" label="Cedula" requiredMessage="El campo Ruc es obligatorio"/>
 						
 						<h:outputText value="Ciudad:*" />
 						<p:selectOneMenu value="#{clienteMBean.selectedCliente.ciudad.id}" panelStyle="width:150px" effect="fade" style="width:160px"
@@ -176,19 +171,19 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Dirección:" />
-						<p:inputText value="#{clienteMBean.selectedCliente.direccion}" label="Direccion"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.direccion}" size="50" label="Direccion"/>
 						
 						<h:outputText value="Teléfono:" />
-						<p:inputText value="#{clienteMBean.selectedCliente.telefono}" label="Telefono"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.telefono}" size="30" label="Telefono"/>
 						
 						<h:outputText value="Célular" />
-						<p:inputText value="#{clienteMBean.selectedCliente.celular}" label="Celular"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.celular}" size="30" label="Celular"/>
 						
 						<h:outputText value="Email" />
-						<p:inputText value="#{clienteMBean.selectedCliente.email}" label="Email"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.email}" size="30" label="Email"/>
 						
 						<h:outputLabel value="Comentarios: " />
-						<p:inputTextarea id="obs" value="#{clienteMBean.selectedCliente.comentario}" rows="2" cols="140" counter="counter" maxlength="255"       
+						<p:inputTextarea id="obs" value="#{clienteMBean.selectedCliente.comentario}" rows="6" cols="33" counter="counter" maxlength="255"       
     					counterTemplate="{0} Caracteres Restantes." autoResize="false" />  
   						
 						<h:outputText id="counter" /> 

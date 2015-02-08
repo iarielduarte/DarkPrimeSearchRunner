@@ -47,6 +47,9 @@ public class Pais {
 
 	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Articulo> articulos;
+	
+	@OneToMany(mappedBy = "pais", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Proveedor> proveedores;
 
 	public Integer getId() {
 		return id;
@@ -80,4 +83,12 @@ public class Pais {
 		this.articulos = articulos;
 	}
 
+	public List<Proveedor> getProveedores() {
+		return proveedores;
+	}
+
+	public void setProveedores(List<Proveedor> proveedores) {
+		this.proveedores = proveedores;
+	}
+	
 }

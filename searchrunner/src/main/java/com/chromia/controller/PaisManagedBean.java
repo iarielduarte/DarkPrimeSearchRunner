@@ -28,30 +28,26 @@ import com.chromia.service.IPaisService;
 @ManagedBean(name = "paisMBean")
 @ViewScoped
 @SessionScoped
-public class PaisManagedBean implements Serializable{
+public class PaisManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@ManagedProperty(value = "#{PaisService}")
 	private IPaisService paisService;
 	private String nombre;
 	private String gentilicio;
 	private List<Pais> paises;
-	private List<Pais> filteredPaises;  
-	private Pais selectedPais; 
-	
+	private List<Pais> filteredPaises;
+	private Pais selectedPais;
+	private List<SelectItem> selectOneItemPais;
+
 	@PostConstruct
 	public void inicializar() {
-    	paises = getPaisService().getPaises();
-		
+		paises = getPaisService().getPaises();
 	}
-	
-	
-	private List<SelectItem> selectOneItemPais;
-	
-	
-	/*TODO: Getters...and...Setters*/
-	
+
+	/* TODO: Getters...and...Setters */
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -88,15 +84,16 @@ public class PaisManagedBean implements Serializable{
 		selectOneItemPais = new ArrayList<SelectItem>();
 		List<Pais> paises = getPaisService().getPaises();
 		for (Pais pais : paises) {
-			SelectItem selectItem = new SelectItem(pais.getId(), pais.getGentilicio());
+			SelectItem selectItem = new SelectItem(pais.getId(),
+					pais.getNombre());
 			selectOneItemPais.add(selectItem);
 		}
 		return selectOneItemPais;
 	}
 
 	public Pais getSelectedPais() {
-		if(selectedPais==null)
-			selectedPais = getPaisService().getPaises().get(0); 
+		if (selectedPais == null)
+			selectedPais = getPaisService().getPaises().get(0);
 		return selectedPais;
 	}
 
@@ -112,71 +109,93 @@ public class PaisManagedBean implements Serializable{
 		this.filteredPaises = filteredPaises;
 	}
 
-//	TODO: Action Listener
-	
+	// TODO: Action Listener
+
 	public void onCreate(ActionEvent actionEvent) {
 		try {
 			Pais paisAdd = new Pais();
 			paisAdd.setNombre(getNombre());
 			paisAdd.setGentilicio(getGentilicio());
-			
-		    if(getPaisService().addPais(paisAdd))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El pais "+paisAdd.getNombre()+" se guardo con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El pais "+paisAdd.getNombre()+" no se pudo guardo :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+
+			if (getPaisService().addPais(paisAdd)) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El pais "
+								+ paisAdd.getNombre()
+								+ " se guardo con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El pais "
+								+ paisAdd.getNombre() + " no se pudo guardo :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
 	}
 
-	
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-			
-		    if(getPaisService().updatePais(getSelectedPais()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El pais "+this.selectedPais.getNombre()+" se modifico con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El pais "+this.selectedPais.getNombre()+" no se pudo modificar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+
+			if (getPaisService().updatePais(getSelectedPais())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El pais "
+								+ this.selectedPais.getNombre()
+								+ " se modifico con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El pais "
+								+ this.selectedPais.getNombre()
+								+ " no se pudo modificar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
+
 	public void onDelete(ActionEvent actionEvent) {
-	    try {
-			
-		    if(getPaisService().deletePais(getSelectedPais()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El pais "+getSelectedPais().getNombre()+" fue eliminado con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El pais "+getSelectedPais().getNombre()+" no se pudo eliminar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+		try {
+
+			if (getPaisService().deletePais(getSelectedPais())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El pais "
+								+ getSelectedPais().getNombre()
+								+ " fue eliminado con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El pais "
+								+ getSelectedPais().getNombre()
+								+ " no se pudo eliminar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
-	public void onReset(){
+
+	public void onReset() {
 		paises = new ArrayList<Pais>();
 		paises.addAll(getPaisService().getPaises());
-		filteredPaises  = new ArrayList<Pais>();
+		filteredPaises = new ArrayList<Pais>();
 		filteredPaises.addAll(paises);
 	}
 
