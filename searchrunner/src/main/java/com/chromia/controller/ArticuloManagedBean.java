@@ -361,16 +361,15 @@ public class ArticuloManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			if (verificarNombreDuplicado(this.articuloAdd().getNombre())) {
+		if (verificarDuplicado(articuloAdd().getNombre(), articuloAdd()
+				.getCodigoOrigen())) {
+			try {
 				if (getArticuloService().addArticulo(this.articuloAdd())) {
 					FacesMessage message = new FacesMessage(
 							FacesMessage.SEVERITY_INFO, "Exito : ",
 							"El articulo " + articuloAdd().getNombre()
 									+ " se guardo con éxito :)");
 					FacesContext.getCurrentInstance().addMessage(null, message);
-					this.reset();
-					this.onReset();
 				} else {
 					FacesMessage message = new FacesMessage(
 							FacesMessage.SEVERITY_ERROR, "Error : ",
@@ -378,13 +377,23 @@ public class ArticuloManagedBean implements Serializable {
 									+ " no se pudo guardo :(");
 					FacesContext.getCurrentInstance().addMessage(null, message);
 				}
-			}
 
-		} catch (DataAccessException e) {
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} finally {
+				this.onReset();
+			}
+		} else {
 			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+					FacesMessage.SEVERITY_WARN,
+					"Error : ",
+					"El Articulo "
+							+ getNombre()
+							+ " ya se encuntra registrado o el codigo se esta duplicando.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
@@ -398,8 +407,6 @@ public class ArticuloManagedBean implements Serializable {
 								+ this.selectedArticulo.getNombre()
 								+ " se modifico con éxito :)");
 				FacesContext.getCurrentInstance().addMessage(null, message);
-				this.reset();
-				this.onReset();
 			} else {
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_ERROR, "Error : ", "El articulo "
@@ -413,13 +420,14 @@ public class ArticuloManagedBean implements Serializable {
 					"Error en el acceso a la base de datos, Detalle: "
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
+		} finally {
+			this.onReset();
 		}
 	}
 
 	public void onDelete(ActionEvent actionEvent) {
 		try {
 			if (getArticuloService().deleteArticulo(getSelectedArticulo())) {
-				onReset();
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Exito : ", "El articulo "
 								+ getSelectedArticulo().getNombre()
@@ -438,10 +446,13 @@ public class ArticuloManagedBean implements Serializable {
 					"Error en el acceso a la base de datos, Detalle: "
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
+		} finally {
+			this.onReset();
 		}
 	}
 
 	public void onReset() {
+		this.reset();
 		articulos = new ArrayList<Articulo>();
 		articulos.addAll(getArticuloService().getArticulos());
 		filteredArticulos = new ArrayList<Articulo>();
@@ -504,26 +515,27 @@ public class ArticuloManagedBean implements Serializable {
 
 	public void reset() {
 		confirmaGrupo = false;
-		this.setGrupoId(0);
-		this.setMarcaId(0);
-		this.setPaisId(0);
-		this.setTipoGrupoId(0);
-		this.setUbicacionId(0);
-		this.setNombre(null);
-		this.setCodigoOrigen(null);
-		this.setCodigoBarra(null);
-		this.setNombreFactura(null);
-		this.setNumeroPieza(null);
-		this.setCodigoMarca(null);
-		this.setPrecioActual(null);
-		this.setPrecioAnterior(null);
-		this.setPrecioVenta(null);
-		this.setIva(null);
-		this.setTipoIva(null);
-		this.setStockMinimo(null);
-		this.setObservaciones(null);
+		grupoId = null;
+		marcaId = null;
+		paisId = null;
+		tipoGrupoId = null;
+		ubicacionId = null;
+		nombre = null;
+		codigoOrigen = null;
+		codigoBarra = null;
+		nombreFactura = null;
+		numeroPieza = null;
+		codigoMarca = null;
+		codigoMarca = null;
+		precioActual = 0.0;
+		precioAnterior = 0.0;
+		precioVenta = 0.0;
+		iva = null;
+		tipoIva = null;
+		stockMinimo = 0;
+		observaciones = null;
 		this.setFilterGrupoId(0);
-		RequestContext.getCurrentInstance().reset("formArticulo");
+		// RequestContext.getCurrentInstance().reset("formArticulo");
 	}
 
 	public String generarDescripcion() {
@@ -548,28 +560,6 @@ public class ArticuloManagedBean implements Serializable {
 		strBuff.append("A" + tipo + "0");
 		strBuff.append(maxId + 1);
 		return strBuff.toString();
-	}
-
-	public boolean verificarNombreDuplicado(String name) {
-		Articulo a = new Articulo();
-		try {
-			a = getArticuloService().getArticuloByName(name);
-			if (!a.equals(null)) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(
-										FacesMessage.SEVERITY_ERROR,
-										"Esta descripción ya se encuentra en registrada",
-										""));
-				return false;
-			}
-		} catch (java.lang.NullPointerException e) {
-			a = null;
-		}
-
-		return true;
 	}
 
 	public void printLogAtributteValue() {
@@ -641,6 +631,7 @@ public class ArticuloManagedBean implements Serializable {
 	 * Page Navigation
 	 */
 	public String moveToPageAddArticulo() {
+		this.reset();
 		return "addArticulo";
 	}
 
@@ -722,5 +713,15 @@ public class ArticuloManagedBean implements Serializable {
 				servletOutputStream);
 		docxExporter.exportReport();
 		FacesContext.getCurrentInstance().responseComplete();
+	}
+
+	protected boolean verificarDuplicado(String nombre, String codigoOrigen) {
+		for (Articulo a : getArticulos()) {
+			if (a.getNombre().equals(nombre)
+					|| a.getCodigoOrigen().equals(codigoOrigen)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

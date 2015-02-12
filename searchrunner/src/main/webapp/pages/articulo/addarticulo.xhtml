@@ -5,7 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 <h:body>
 <ui:composition template="./../template.xhtml">
@@ -63,7 +64,7 @@
 					<h:panelGrid columns="2">
 						<h:outputLabel value="Descripción del Articulo: *" />
 						<p:inputText id="descripcion" value="#{articuloMBean.nombre}" disabled="#{articuloMBean.confirmaGrupo==false}"
-							required="true" label="Descripcion" size="116" requiredMessage="El campo descripción es obligatorio">
+							required="true" label="Descripcion" size="116" requiredMessage="El campo descripción es obligatorio" onblur="value=value.toUpperCase()">
 							<f:validateLength minimum="2" />
 						</p:inputText>
 					</h:panelGrid>
@@ -71,15 +72,15 @@
 					
 					<h:outputLabel value="Código de Articulo: *" />
 						<p:inputText id="codigoarticulo" value="#{articuloMBean.codigoOrigen}" disabled="#{articuloMBean.confirmaGrupo==false}"
-							label="codigoarticulo" size="50" readonly="true"/>
+							label="codigoarticulo" size="50" readonly="true" onblur="value=value.toUpperCase()"/>
 							
 						<h:outputLabel value="Código de Marca: *" />
 						<p:inputText id="codigomarca" value="#{articuloMBean.codigoMarca}" disabled="#{articuloMBean.confirmaGrupo==false}"
-							required="true" label="codigomarca" size="50" requiredMessage="El campo Codigo de Marca es obligatorio" />
+							required="true" label="codigomarca" size="50" requiredMessage="El campo Codigo de Marca es obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<h:outputLabel value="Numero de Pieza: *" />
 						<p:inputText id="numeropieza" value="#{articuloMBean.numeroPieza}" disabled="#{articuloMBean.confirmaGrupo==false}"
-							required="true" label="numeropieza" size="50" requiredMessage="El campo Numero de Pieza es obligatorio" />
+							required="true" label="numeropieza" size="50" requiredMessage="El campo Numero de Pieza es obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<h:outputLabel value="Codigo de Barras: " />
 						<p:inputText id="codigobarra" value="#{articuloMBean.codigoBarra}" disabled="#{articuloMBean.confirmaGrupo==false}"
@@ -89,6 +90,9 @@
 
 			
 				<p:panel id="panel3" header="Precios e Impuestos del Articulo" style="margin-bottom:10px;">
+				<pe:keyFilter for="precioVenta" mask="num"/>
+				<pe:keyFilter for="precioActual" mask="num"/>
+				
 					<h:panelGrid columns="4">
 						<h:outputLabel value="Precio de Venta: *" />
 						<p:inputText id="precioVenta" value="#{articuloMBean.precioVenta}" disabled="#{articuloMBean.confirmaGrupo==false}"
@@ -124,6 +128,7 @@
 					</h:panelGrid>
 				</p:panel>
 			
+			<pe:keyFilter for="stockMinimo" mask="num"/>
 				<p:panel id="panel5" header="Información de Stock" style="margin-bottom:10px;">
 						<h:panelGrid columns="4">
 						<h:outputLabel value="Stock Minimo: *" />
@@ -149,7 +154,7 @@
 						
 						<h:outputLabel value="Observaciones " />
 						<p:inputTextarea id="obs" value="#{articuloMBean.observaciones}" rows="2" cols="140" counter="counter" maxlength="255"       
-    					counterTemplate="{0} Caracteres Restantes." autoResize="false" disabled="#{articuloMBean.confirmaGrupo==false}"/>  
+    					counterTemplate="{0} Caracteres Restantes." autoResize="false" disabled="#{articuloMBean.confirmaGrupo==false}" onblur="value=value.toUpperCase()"/>  
   						
 						<h:outputText id="counter" />  
 						

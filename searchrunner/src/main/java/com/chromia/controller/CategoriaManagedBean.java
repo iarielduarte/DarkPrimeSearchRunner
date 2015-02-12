@@ -117,41 +117,46 @@ public class CategoriaManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Categoria categoriaAdd = new Categoria();
-			categoriaAdd.setNombre(getNombre());
-			categoriaAdd.setDescuento(getDescuento());
-			categoriaAdd.setGanancia(getGanancia());
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Categoria categoriaAdd = new Categoria();
+				categoriaAdd.setNombre(getNombre());
+				categoriaAdd.setDescuento(getDescuento());
+				categoriaAdd.setGanancia(getGanancia());
 
-			if (getCategoriaService().addCategoria(categoriaAdd)) {
+				if (getCategoriaService().addCategoria(categoriaAdd)) {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"La Categoria " + categoriaAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"La Categoria " + categoriaAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}finally{
 				onReset();
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Exito : ", "La Categoria "
-								+ categoriaAdd.getNombre()
-								+ " se guardo con éxito :)");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Error : ",
-						"La Categoria " + categoriaAdd.getNombre()
-								+ " no se pudo guardo :(");
-				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "La categoria " + getNombre()
+							+ " ya se encuntra registrado.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
 	}
 
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-
 			if (getCategoriaService().updateCategoria(getSelectedCategoria())) {
-				onReset();
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Exito : ", "La Categoria "
 								+ this.selectedCategoria.getNombre()
@@ -170,13 +175,14 @@ public class CategoriaManagedBean implements Serializable {
 					"Error en el acceso a la base de datos, Detalle: "
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
+		}finally{
+			onReset();
 		}
 	}
 
 	public void onDelete(ActionEvent actionEvent) {
 		try {
 			if (getCategoriaService().deleteCategoria(getSelectedCategoria())) {
-				onReset();
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Exito : ", "La Categoria "
 								+ getSelectedCategoria().getNombre()
@@ -196,13 +202,26 @@ public class CategoriaManagedBean implements Serializable {
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
+		onReset();
 	}
 
 	public void onReset() {
+		nombre = null;
+		ganancia = 0.0;
+		descuento = 0.0;
 		categorias = new ArrayList<Categoria>();
 		categorias.addAll(getCategoriaService().getCategorias());
 		filteredCategorias = new ArrayList<Categoria>();
 		filteredCategorias.addAll(categorias);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Categoria c : getCategorias()) {
+			if (c.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

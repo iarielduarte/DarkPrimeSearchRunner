@@ -83,7 +83,7 @@
 
 						<h:outputText value="Nombre:*" />
 						<p:inputText id="nombre"  value="#{grupoMBean.nombre}" required="true" label="Nombre"
-						requiredMessage="Nombre es un campo obligatorio" />
+						requiredMessage="Nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<f:facet name="footer">
 							<p:separator/>
@@ -106,7 +106,7 @@
 						<p:inputText value="#{grupoMBean.selectedGrupo.id}" disabled="true"/>
 
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{grupoMBean.selectedGrupo.nombre}" required="true" label="Falta nombre de grupo" requiredMessage="Falta nombre de grupo" />
+						<p:inputText value="#{grupoMBean.selectedGrupo.nombre}" required="true" label="Falta nombre de grupo" requiredMessage="Falta nombre de grupo" onblur="value=value.toUpperCase()"/>
 
 						<f:facet name="footer">
 							<p:separator/>

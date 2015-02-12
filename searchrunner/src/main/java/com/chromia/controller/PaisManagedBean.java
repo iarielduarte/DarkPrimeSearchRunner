@@ -112,29 +112,37 @@ public class PaisManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Pais paisAdd = new Pais();
-			paisAdd.setNombre(getNombre());
-			paisAdd.setGentilicio(getGentilicio());
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Pais paisAdd = new Pais();
+				paisAdd.setNombre(getNombre());
+				paisAdd.setGentilicio(getGentilicio());
 
-			if (getPaisService().addPais(paisAdd)) {
-				onReset();
+				if (getPaisService().addPais(paisAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ", "El pais "
+									+ paisAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ", "El pais "
+									+ paisAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
 				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Exito : ", "El pais "
-								+ paisAdd.getNombre()
-								+ " se guardo con éxito :)");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Error : ", "El pais "
-								+ paisAdd.getNombre() + " no se pudo guardo :(");
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "El País " + getNombre()
+							+ " ya se encuntra registrado.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
@@ -197,6 +205,15 @@ public class PaisManagedBean implements Serializable {
 		paises.addAll(getPaisService().getPaises());
 		filteredPaises = new ArrayList<Pais>();
 		filteredPaises.addAll(paises);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Pais g : getPaises()) {
+			if (g.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

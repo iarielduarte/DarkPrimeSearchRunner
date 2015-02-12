@@ -28,28 +28,27 @@ import com.chromia.service.IMarcaService;
 @ManagedBean(name = "marcaMBean")
 @ViewScoped
 @SessionScoped
-public class MarcaManagedBean implements Serializable{
+public class MarcaManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@ManagedProperty(value = "#{MarcaService}")
 	private IMarcaService marcaService;
 	private String nombre;
 	private List<Marca> marcas;
-	private List<Marca> filteredMarcas;  
-	private Marca selectedMarca; 
-	
+	private List<Marca> filteredMarcas;
+	private Marca selectedMarca;
+
 	@PostConstruct
 	public void inicializar() {
-    	marcas = getMarcaService().getMarcas();
-		
+		marcas = getMarcaService().getMarcas();
+
 	}
-	
+
 	private List<SelectItem> selectOneItemMarca;
-	
-	
-	/*TODO: Getters...and...Setters*/
-	
+
+	/* TODO: Getters...and...Setters */
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -78,15 +77,16 @@ public class MarcaManagedBean implements Serializable{
 		selectOneItemMarca = new ArrayList<SelectItem>();
 		List<Marca> marcas = getMarcaService().getMarcas();
 		for (Marca marca : marcas) {
-			SelectItem selectItem = new SelectItem(marca.getId(), marca.getNombre());
+			SelectItem selectItem = new SelectItem(marca.getId(),
+					marca.getNombre());
 			selectOneItemMarca.add(selectItem);
 		}
 		return selectOneItemMarca;
 	}
 
 	public Marca getSelectedMarca() {
-		if(selectedMarca==null)
-			selectedMarca = getMarcaService().getMarcas().get(0); 
+		if (selectedMarca == null)
+			selectedMarca = getMarcaService().getMarcas().get(0);
 		return selectedMarca;
 	}
 
@@ -102,71 +102,110 @@ public class MarcaManagedBean implements Serializable{
 		this.filteredMarcas = filteredMarcas;
 	}
 
-//	TODO: Action Listener
-	
+	// TODO: Action Listener
+
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Marca marcaAdd = new Marca();
-			marcaAdd.setNombre(getNombre());
-			
-		    if(getMarcaService().addMarca(marcaAdd))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El marca "+marcaAdd.getNombre()+" se guardo con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El marca "+marcaAdd.getNombre()+" no se pudo guardo :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Marca marcaAdd = new Marca();
+				marcaAdd.setNombre(getNombre());
+
+				if (getMarcaService().addMarca(marcaAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ", "El marca "
+									+ marcaAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"El marca " + marcaAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "La marca " + getNombre()
+							+ " ya se encuntra registrado.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
 	}
 
-	
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-			
-		    if(getMarcaService().updateMarca(getSelectedMarca()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El marca "+this.selectedMarca.getNombre()+" se modifico con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El marca "+this.selectedMarca.getNombre()+" no se pudo modificar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+
+			if (getMarcaService().updateMarca(getSelectedMarca())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El marca "
+								+ this.selectedMarca.getNombre()
+								+ " se modifico con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El marca "
+								+ this.selectedMarca.getNombre()
+								+ " no se pudo modificar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
+
 	public void onDelete(ActionEvent actionEvent) {
-	    try {
-			
-		    if(getMarcaService().deleteMarca(getSelectedMarca()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El marca "+getSelectedMarca().getNombre()+" fue eliminado con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El marca "+getSelectedMarca().getNombre()+" no se pudo eliminar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+		try {
+
+			if (getMarcaService().deleteMarca(getSelectedMarca())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El marca "
+								+ getSelectedMarca().getNombre()
+								+ " fue eliminado con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El marca "
+								+ getSelectedMarca().getNombre()
+								+ " no se pudo eliminar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
-	public void onReset(){
+
+	public void onReset() {
 		marcas = new ArrayList<Marca>();
 		marcas.addAll(getMarcaService().getMarcas());
-		filteredMarcas  = new ArrayList<Marca>();
+		filteredMarcas = new ArrayList<Marca>();
 		filteredMarcas.addAll(marcas);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Marca m : getMarcas()) {
+			if (m.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

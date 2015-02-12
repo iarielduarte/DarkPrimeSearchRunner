@@ -21,16 +21,14 @@
 		<div id="top" class="ui-widget-header ui-corner-all">
 			<ui:insert name="top">Sistema de Control de Stock</ui:insert>
 		</div>
+		
 
 		<div id="menu">
 			<h:form>
 
 				<p:menubar>
-					
 					<p:menuitem label="Home" icon="ui-icon-home" url="#{appMBean.urlHome}"/>
-					
 					<p:submenu label="Sistema" icon="ui-icon-gear">
-					
 						<p:submenu label="Mantenimiento" icon="ui-icon-person"> 
 							<p:menuitem value="Ciudades" url="#{appMBean.urlMantenimientoPage}ciudad.xhtml" /> 
 							<p:menuitem value="Categorias" url="#{appMBean.urlMantenimientoPage}categoria.xhtml" /> 
@@ -78,10 +76,7 @@
 					<p:menuitem value="Salir" actionListener="#{loginBean.logout}"
 						icon="ui-icon-close"
 						oncomplete="handleLoginRequest(xhr, status, args)" />
-
 				</p:menubar>
-
-
 			</h:form>
 		</div>
 

@@ -22,42 +22,39 @@ import com.chromia.service.IUsuarioService;
 @ManagedBean(name = "usuarioMBean")
 @ViewScoped
 @SessionScoped
-public class UsuarioManagedBean implements Serializable{
-	
+public class UsuarioManagedBean implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	private List<Usuario> usuarios;  
-	  
-    private Usuario selectedUsuario;  
-    
-    private List<Usuario> filteredUsuarios;  
-  
-    
-   //-- Spring Service is injected... --//
-    @ManagedProperty(value = "#{RolService}")
+	private List<Usuario> usuarios;
+
+	private Usuario selectedUsuario;
+
+	private List<Usuario> filteredUsuarios;
+
+	// -- Spring Service is injected... --//
+	@ManagedProperty(value = "#{RolService}")
 	private IRolService rolService;
- 	@ManagedProperty(value = "#{UsuarioService}")
- 	private IUsuarioService usuarioService;
- 	private String nombre;
+	@ManagedProperty(value = "#{UsuarioService}")
+	private IUsuarioService usuarioService;
+	private String nombre;
 	private String clave;
 	private String email;
 	private Integer rol;
- 	
- 	
- 	//-- TODO: Constructor --//
-    public UsuarioManagedBean() {
-    	
+
+	// -- TODO: Constructor --//
+	public UsuarioManagedBean() {
+
 	}
-    
-    @PostConstruct
+
+	@PostConstruct
 	public void inicializar() {
-    	onReset();
-		
+		onReset();
+
 	}
-    
-    
-  //-- TODO: Getter y setter del servicio --//
-    public IUsuarioService getUsuarioService() {
+
+	// -- TODO: Getter y setter del servicio --//
+	public IUsuarioService getUsuarioService() {
 		return usuarioService;
 	}
 
@@ -83,8 +80,8 @@ public class UsuarioManagedBean implements Serializable{
 	}
 
 	public Usuario getSelectedUsuario() {
-		if(selectedUsuario==null)
-			selectedUsuario = getUsuarioService().getUsuarios().get(0); 
+		if (selectedUsuario == null)
+			selectedUsuario = getUsuarioService().getUsuarios().get(0);
 		return selectedUsuario;
 	}
 
@@ -99,10 +96,8 @@ public class UsuarioManagedBean implements Serializable{
 	public void setFilteredUsuarios(List<Usuario> filteredUsuarios) {
 		this.filteredUsuarios = filteredUsuarios;
 	}
-	
-	
 
-	//-- TODO: Acciones de la vista --//
+	// -- TODO: Acciones de la vista --//
 
 	public String getNombre() {
 		return nombre;
@@ -136,76 +131,110 @@ public class UsuarioManagedBean implements Serializable{
 		this.email = email;
 	}
 
-	
-//	TODO: Action Listener
-	
-	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Usuario userAdd = new Usuario();
-			userAdd.setNombre(getNombre());
-			userAdd.setClave(getClave());
-			userAdd.setEmail(getEmail());
-			userAdd.setRol(getRolService().getRolById(getRol()));
-			
-		    if(getUsuarioService().addUsuario(userAdd))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El usuario "+userAdd.getNombre()+" se guardo con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El usuario "+userAdd.getNombre()+" no se pudo guardo :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		}
+	// TODO: Action Listener
 
+	public void onCreate(ActionEvent actionEvent) {
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Usuario userAdd = new Usuario();
+				userAdd.setNombre(getNombre());
+				userAdd.setClave(getClave());
+				userAdd.setEmail(getEmail());
+				userAdd.setRol(getRolService().getRolById(getRol()));
+
+				if (getUsuarioService().addUsuario(userAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"El usuario " + userAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"El usuario " + userAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "El usuario " + getNombre()
+							+ " ya se encuntra registrado.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 	}
-	
-	
+
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-			
-		    if(getUsuarioService().updateUsuario(getSelectedUsuario()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El usuario "+this.selectedUsuario.getNombre()+" se modifico con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El usuario "+this.selectedUsuario.getNombre()+" no se pudo modificar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+			if (getUsuarioService().updateUsuario(getSelectedUsuario())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El usuario "
+								+ this.selectedUsuario.getNombre()
+								+ " se modifico con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El usuario "
+								+ this.selectedUsuario.getNombre()
+								+ " no se pudo modificar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
-	
+
 	public void onDelete(ActionEvent actionEvent) {
-	    try {
-			
-		    if(getUsuarioService().deleteUsuario(getSelectedUsuario()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El usuario "+getSelectedUsuario().getNombre()+" fue eliminado con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El usuario "+getSelectedUsuario().getNombre()+" no se pudo eliminar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+		try {
+			if (getUsuarioService().deleteUsuario(getSelectedUsuario())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "El usuario "
+								+ getSelectedUsuario().getNombre()
+								+ " fue eliminado con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ", "El usuario "
+								+ getSelectedUsuario().getNombre()
+								+ " no se pudo eliminar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-   
-	public void onReset(){
+
+	public void onReset() {
 		usuarios = new ArrayList<Usuario>();
 		usuarios.addAll(getUsuarioService().getUsuarios());
-		filteredUsuarios  = new ArrayList<Usuario>();
+		filteredUsuarios = new ArrayList<Usuario>();
 		filteredUsuarios.addAll(usuarios);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Usuario g : getUsuarios()) {
+			if (g.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

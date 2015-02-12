@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.dao.DataAccessException;
 
 import com.chromia.model.Ciudad;
@@ -98,32 +99,38 @@ public class CiudadManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Ciudad ciudadAdd = new Ciudad();
-			ciudadAdd.setNombre(getNombre());
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Ciudad ciudadAdd = new Ciudad();
+				ciudadAdd.setNombre(getNombre());
 
-			if (getCiudadService().addCiudad(ciudadAdd)) {
-				onReset();
+				if (getCiudadService().addCiudad(ciudadAdd)) {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"La ciudad " + ciudadAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"La ciudad " + ciudadAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
 				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Exito : ", "La ciudad "
-								+ ciudadAdd.getNombre()
-								+ " se guardo con éxito :)");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Error : ", "La ciudad "
-								+ ciudadAdd.getNombre()
-								+ " no se pudo guardo :(");
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "La ciudad " + getNombre()
+							+ " ya se encuntra registrado.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
+		onReset();
 	}
 
 	public void onEdit(ActionEvent actionEvent) {
@@ -178,9 +185,19 @@ public class CiudadManagedBean implements Serializable {
 	}
 
 	public void onReset() {
+		nombre = null;
 		ciudades = new ArrayList<Ciudad>();
 		ciudades.addAll(getCiudadService().getCiudades());
 		filteredCiudades = new ArrayList<Ciudad>();
 		filteredCiudades.addAll(ciudades);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Ciudad c : getCiudades()) {
+			if (c.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

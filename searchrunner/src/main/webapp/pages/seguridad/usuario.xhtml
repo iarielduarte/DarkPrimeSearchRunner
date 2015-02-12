@@ -104,7 +104,10 @@
 							weakLabel="Mala" goodLabel="Normal" strongLabel="Excelente"/>
 							
 						<h:outputText value="Email:*" />
-						<p:inputText value="#{usuarioMBean.email}" size="45" required="true" label="Falta email"/>
+						<p:inputText id="email" value="#{usuarioMBean.email}" label="Email" size="45" validatorMessage="Email invalido" required="true"
+						requiredMessage="Por favor ingrese un email valido" onblur="value=value.toLowerCase()">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
 
 						<f:facet name="footer">
 							<p:separator/>
@@ -141,7 +144,10 @@
 							weakLabel="Mala" goodLabel="Normal" strongLabel="Excelente"/>
 							
 						<h:outputText value="Email:*" />
-						<p:inputText value="#{usuarioMBean.selectedUsuario.email}" size="45"  />
+						<p:inputText id="email" value="#{usuarioMBean.selectedUsuario.email}" label="Email" size="45" validatorMessage="Email invalido" required="true"
+						requiredMessage="Por favor ingrese un email valido" onblur="value=value.toLowerCase()">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
 
 						<f:facet name="footer">
 							<p:separator/>

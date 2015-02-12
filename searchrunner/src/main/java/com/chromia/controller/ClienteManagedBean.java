@@ -60,7 +60,6 @@ public class ClienteManagedBean implements Serializable {
 	@PostConstruct
 	public void inicializar() {
 		onReset();
-
 	}
 
 	// -- TODO: Getter y setter del servicio --//
@@ -188,7 +187,7 @@ public class ClienteManagedBean implements Serializable {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-	
+
 	public ICiudadService getCiudadService() {
 		return ciudadService;
 	}
@@ -210,48 +209,56 @@ public class ClienteManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Cliente clienteAdd = new Cliente();
-			clienteAdd.setNombre(getNombre());
-			clienteAdd.setRuc(getRuc());
-			clienteAdd.setCedula(getRuc());
-			clienteAdd.setDireccion(getDireccion());
-			clienteAdd.setTelefono(getTelefono());
-			clienteAdd.setCelular(getCelular());
-			clienteAdd.setEmail(getEmail());
-			clienteAdd.setComentario(getComentario());
-			clienteAdd.setCiudad(getCiudadService().getCiudadById(getCiudadId()));
-			clienteAdd.setCategoria(getCategoriaService().getCategoriaById(getCategoriaId()));
+		if (verificarDuplicado(getNombre(), getRuc())) {
+			try {
+				Cliente clienteAdd = new Cliente();
+				clienteAdd.setNombre(getNombre());
+				clienteAdd.setRuc(getRuc());
+				clienteAdd.setCedula(getRuc());
+				clienteAdd.setDireccion(getDireccion());
+				clienteAdd.setTelefono(getTelefono());
+				clienteAdd.setCelular(getCelular());
+				clienteAdd.setEmail(getEmail());
+				clienteAdd.setComentario(getComentario());
+				clienteAdd.setCiudad(getCiudadService().getCiudadById(
+						getCiudadId()));
+				clienteAdd.setCategoria(getCategoriaService().getCategoriaById(
+						getCategoriaId()));
 
-			if (getClienteService().addCliente(clienteAdd)) {
+				if (getClienteService().addCliente(clienteAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"El Cliente " + clienteAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"El Cliente " + clienteAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}finally{
 				onReset();
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Exito : ", "El Cliente "
-								+ clienteAdd.getNombre()
-								+ " se guardo con éxito :)");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Error : ", "El Cliente "
-								+ clienteAdd.getNombre()
-								+ " no se pudo guardo :(");
-				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "El Cliente " + getNombre()
+							+ " ya se encuntra registrado.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
 	}
 
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-
 			if (getClienteService().updateCliente(getSelectedCliente())) {
-				onReset();
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Exito : ", "El Cliente "
 								+ this.selectedCliente.getNombre()
@@ -270,14 +277,14 @@ public class ClienteManagedBean implements Serializable {
 					"Error en el acceso a la base de datos, Detalle: "
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
+		}finally{
+			onReset();
 		}
 	}
 
 	public void onDelete(ActionEvent actionEvent) {
 		try {
-
 			if (getClienteService().deleteCliente(getSelectedCliente())) {
-				onReset();
 				FacesMessage message = new FacesMessage(
 						FacesMessage.SEVERITY_INFO, "Exito : ", "El cliente "
 								+ getSelectedCliente().getNombre()
@@ -296,14 +303,35 @@ public class ClienteManagedBean implements Serializable {
 					"Error en el acceso a la base de datos, Detalle: "
 							+ e.getMessage() + " x(");
 			FacesContext.getCurrentInstance().addMessage(null, message);
+		}finally{
+			onReset();
 		}
 	}
 
 	public void onReset() {
+		nombre = null;
+		direccion = null;
+		telefono = null;
+		celular = null;
+		ruc = null;
+		comentario = null;
+		cedula = null;
+		email = null;
+		ciudadId = null;
+		categoriaId = null;
 		clientes = new ArrayList<Cliente>();
 		clientes.addAll(getClienteService().getClientes());
 		filteredClientes = new ArrayList<Cliente>();
 		filteredClientes.addAll(clientes);
+	}
+
+	protected boolean verificarDuplicado(String nombre, String ruc) {
+		for (Cliente c : getClientes()) {
+			if (c.getNombre().equals(nombre) || c.getRuc().equals(ruc)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

@@ -83,7 +83,7 @@
 
 						<h:outputText value="Nombre:*" />
 						<p:inputText id="nombre"  value="#{ubicacionMBean.nombre}" required="true" label="Nombre"
-						requiredMessage="Nombre es un campo obligatorio" />
+						requiredMessage="Nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<f:facet name="footer">
 							<p:separator/>
@@ -106,7 +106,7 @@
 						<p:inputText value="#{ubicacionMBean.selectedUbicacion.id}" disabled="true"/>
 
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{ubicacionMBean.selectedUbicacion.nombre}" required="true" label="Nombre" requiredMessage="Nombre es un campo obligatorio" />
+						<p:inputText value="#{ubicacionMBean.selectedUbicacion.nombre}" required="true" label="Nombre" requiredMessage="Nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 
 						<f:facet name="footer">
 							<p:separator/>

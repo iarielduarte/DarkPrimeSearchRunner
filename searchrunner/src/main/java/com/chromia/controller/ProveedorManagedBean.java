@@ -203,41 +203,47 @@ public class ProveedorManagedBean implements Serializable {
 	// TODO: Action Listener
 
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Proveedor proveedorAdd = new Proveedor();
-			proveedorAdd.setNombre(getNombre());
-			proveedorAdd.setRuc(getRuc());
-			proveedorAdd.setDireccion(getDireccion());
-			proveedorAdd.setTelefono(getTelefono());
-			proveedorAdd.setCelular(getCelular());
-			proveedorAdd.setEmail(getEmail());
-			proveedorAdd.setIva(getIva());
-			proveedorAdd.setCiudad(getCiudadService().getCiudadById(
-					getCiudadId()));
-			proveedorAdd.setPais(getPaisService().getPaisById(getPaisId()));
+		if (verificarDuplicado(getNombre(), getRuc())) {
+			try {
+				Proveedor proveedorAdd = new Proveedor();
+				proveedorAdd.setNombre(getNombre());
+				proveedorAdd.setRuc(getRuc());
+				proveedorAdd.setDireccion(getDireccion());
+				proveedorAdd.setTelefono(getTelefono());
+				proveedorAdd.setCelular(getCelular());
+				proveedorAdd.setEmail(getEmail());
+				proveedorAdd.setIva(getIva());
+				proveedorAdd.setCiudad(getCiudadService().getCiudadById(
+						getCiudadId()));
+				proveedorAdd.setPais(getPaisService().getPaisById(getPaisId()));
 
-			if (getProveedorService().addProveedor(proveedorAdd)) {
-				onReset();
+				if (getProveedorService().addProveedor(proveedorAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"El Proveedor " + proveedorAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"El Proveedor " + proveedorAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
 				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_INFO, "Exito : ", "El Proveedor "
-								+ proveedorAdd.getNombre()
-								+ " se guardo con éxito :)");
-				FacesContext.getCurrentInstance().addMessage(null, message);
-			} else {
-				FacesMessage message = new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Error : ",
-						"El Proveedor " + proveedorAdd.getNombre()
-								+ " no se pudo guardo :(");
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
 				FacesContext.getCurrentInstance().addMessage(null, message);
 			}
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(
-					FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
-					"Error en el acceso a la base de datos, Detalle: "
-							+ e.getMessage() + " x(");
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "El Proveedor " + getNombre()
+							+ " ya se encuntra registrado.");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
-
 	}
 
 	public void onEdit(ActionEvent actionEvent) {
@@ -297,6 +303,15 @@ public class ProveedorManagedBean implements Serializable {
 		proveedores.addAll(getProveedorService().getProveedores());
 		filteredProveedores = new ArrayList<Proveedor>();
 		filteredProveedores.addAll(proveedores);
+	}
+
+	protected boolean verificarDuplicado(String nombre, String ruc) {
+		for (Proveedor p : getProveedores()) {
+			if (p.getNombre().equals(nombre) || p.getRuc().equals(ruc)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

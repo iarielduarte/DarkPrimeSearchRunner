@@ -14,7 +14,7 @@
 
 			<p:growl id="msgs" showDetail="true" />
 			<h:form>
-			<p:commandButton id="btnAddCiudad" update=":formAdd"
+			<p:commandButton id="btnAddCiudad" update=":formAdd:panel"
 			oncomplete="PF('ciudadDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nueva Ciudad"/>
 			
 			<p:commandButton id="btnPrintCiudad" update=":formPrint"
@@ -70,16 +70,18 @@
 				<p:dialog header="Agregar Ciudad" widgetVar="ciudadDialogAdd"
 					resizable="false" id="ciudadDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
 
-					<h:panelGrid id="display" columns="2" cellpadding="4"
+					<h:panelGrid id="panel" columns="2" cellpadding="4"
 						style="margin:0 auto;">
 
 						<h:outputText value="Nombre:*" />
 						<p:inputText id="nombre"  value="#{ciudadMBean.nombre}" required="true" label="Nombre"
-						requiredMessage="Nombre es un campo obligatorio" />
+						requiredMessage="Nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<f:facet name="footer">
 							<p:separator/>
-							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('ciudadDialogAdd').hide()" actionListener="#{ciudadMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs, :formAdd" 
+							oncomplete="PF('ciudadDialogAdd').hide()" actionListener="#{ciudadMBean.onCreate(actionEvent)}" 
+							title="guardar" icon="ui-icon-disk" value="Guardar"/>
 							<p:commandButton id="btnAddCancel" oncomplete="PF('ciudadDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
 						</f:facet>
 					</h:panelGrid>
@@ -98,7 +100,7 @@
 						<p:inputText value="#{ciudadMBean.selectedCiudad.id}" disabled="true"/>
 
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{ciudadMBean.selectedCiudad.nombre}" required="true" label="Falta nombre de Ciudad" requiredMessage="Falta nombre de Ciudad" />
+						<p:inputText value="#{ciudadMBean.selectedCiudad.nombre}" required="true" label="Falta nombre de Ciudad" requiredMessage="Falta nombre de Ciudad" onblur="value=value.toUpperCase()"/>
 
 						<f:facet name="footer">
 							<p:separator/>

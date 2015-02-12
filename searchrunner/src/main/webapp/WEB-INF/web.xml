@@ -26,7 +26,7 @@ id="WebApp_ID" version="2.5">
   </context-param>
   <context-param>
     <param-name>primefaces.THEME</param-name>
-    <param-value>dark-hive</param-value>
+    <param-value>vader</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>faces/login.xhtml</welcome-file>

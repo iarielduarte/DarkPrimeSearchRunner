@@ -28,28 +28,27 @@ import com.chromia.service.IUbicacionService;
 @ManagedBean(name = "ubicacionMBean")
 @ViewScoped
 @SessionScoped
-public class UbicacionManagedBean implements Serializable{
+public class UbicacionManagedBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@ManagedProperty(value = "#{UbicacionService}")
 	private IUbicacionService ubicacionService;
 	private String nombre;
 	private List<Ubicacion> ubicaciones;
-	private List<Ubicacion> filteredUbicaciones;  
-	private Ubicacion selectedUbicacion; 
-	
+	private List<Ubicacion> filteredUbicaciones;
+	private Ubicacion selectedUbicacion;
+
 	@PostConstruct
 	public void inicializar() {
-    	ubicaciones = getUbicacionService().getUbicaciones();
-		
+		ubicaciones = getUbicacionService().getUbicaciones();
+
 	}
-	
+
 	private List<SelectItem> selectOneItemUbicacion;
-	
-	
-	/*TODO: Getters...and...Setters*/
-	
+
+	/* TODO: Getters...and...Setters */
+
 	public String getNombre() {
 		return nombre;
 	}
@@ -78,15 +77,16 @@ public class UbicacionManagedBean implements Serializable{
 		selectOneItemUbicacion = new ArrayList<SelectItem>();
 		List<Ubicacion> ubicaciones = getUbicacionService().getUbicaciones();
 		for (Ubicacion ubicacion : ubicaciones) {
-			SelectItem selectItem = new SelectItem(ubicacion.getId(), ubicacion.getNombre());
+			SelectItem selectItem = new SelectItem(ubicacion.getId(),
+					ubicacion.getNombre());
 			selectOneItemUbicacion.add(selectItem);
 		}
 		return selectOneItemUbicacion;
 	}
 
 	public Ubicacion getSelectedUbicacion() {
-		if(selectedUbicacion==null)
-			selectedUbicacion = getUbicacionService().getUbicaciones().get(0); 
+		if (selectedUbicacion == null)
+			selectedUbicacion = getUbicacionService().getUbicaciones().get(0);
 		return selectedUbicacion;
 	}
 
@@ -102,71 +102,107 @@ public class UbicacionManagedBean implements Serializable{
 		this.filteredUbicaciones = filteredUbicaciones;
 	}
 
-//	TODO: Action Listener
-	
+	// TODO: Action Listener
+
 	public void onCreate(ActionEvent actionEvent) {
-		try {
-			Ubicacion ubicacionAdd = new Ubicacion();
-			ubicacionAdd.setNombre(getNombre());
-			
-		    if(getUbicacionService().addUbicacion(ubicacionAdd))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "La ubicacion "+ubicacionAdd.getNombre()+" se guardo con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "La ubicacion "+ubicacionAdd.getNombre()+" no se pudo guardo :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+		if (verificarDuplicado(getNombre())) {
+			try {
+				Ubicacion ubicacionAdd = new Ubicacion();
+				ubicacionAdd.setNombre(getNombre());
+				if (getUbicacionService().addUbicacion(ubicacionAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"La ubicacion " + ubicacionAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"La ubicacion " + ubicacionAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "La ubicación " + getNombre()
+							+ " ya se encuntra registrado.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 
 	}
 
-	
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-			
-		    if(getUbicacionService().updateUbicacion(getSelectedUbicacion()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "La ubicacion "+this.selectedUbicacion.getNombre()+" se modifico con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "La ubicacion "+this.selectedUbicacion.getNombre()+" no se pudo modificar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+			if (getUbicacionService().updateUbicacion(getSelectedUbicacion())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "La ubicacion "
+								+ this.selectedUbicacion.getNombre()
+								+ " se modifico con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ",
+						"La ubicacion " + this.selectedUbicacion.getNombre()
+								+ " no se pudo modificar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
+
 	public void onDelete(ActionEvent actionEvent) {
-	    try {
-			
-		    if(getUbicacionService().deleteUbicacion(getSelectedUbicacion()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "La ubicacion "+getSelectedUbicacion().getNombre()+" fue eliminado con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "La ubicacion "+getSelectedUbicacion().getNombre()+" no se pudo eliminar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+		try {
+			if (getUbicacionService().deleteUbicacion(getSelectedUbicacion())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ", "La ubicacion "
+								+ getSelectedUbicacion().getNombre()
+								+ " fue eliminado con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ",
+						"La ubicacion " + getSelectedUbicacion().getNombre()
+								+ " no se pudo eliminar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
-	public void onReset(){
+
+	public void onReset() {
 		ubicaciones = new ArrayList<Ubicacion>();
 		ubicaciones.addAll(getUbicacionService().getUbicaciones());
-		filteredUbicaciones  = new ArrayList<Ubicacion>();
+		filteredUbicaciones = new ArrayList<Ubicacion>();
 		filteredUbicaciones.addAll(ubicaciones);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (Ubicacion g : getUbicaciones()) {
+			if (g.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

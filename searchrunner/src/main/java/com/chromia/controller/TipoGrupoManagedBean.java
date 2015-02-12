@@ -15,49 +15,45 @@ import javax.faces.model.SelectItem;
 
 import org.springframework.dao.DataAccessException;
 
-import com.chromia.model.Grupo;
 import com.chromia.model.TipoGrupo;
 import com.chromia.service.IGrupoService;
 import com.chromia.service.ITipoGrupoService;
 
 @ManagedBean(name = "tipoGrupoMBean")
 @ViewScoped
-public class TipoGrupoManagedBean implements Serializable{
-	
+public class TipoGrupoManagedBean implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
-	private List<TipoGrupo> tipoGrupos;  
-	  
-    private TipoGrupo selectedTipoGrupo;  
-    
-    private List<TipoGrupo> filteredTipoGrupos;  
-    
-    private List<SelectItem> selectOneItemTipoGrupo;
-  
-    
-   //-- Spring User Service is injected... --//
-    @ManagedProperty(value = "#{GrupoService}")
+	private List<TipoGrupo> tipoGrupos;
+
+	private TipoGrupo selectedTipoGrupo;
+
+	private List<TipoGrupo> filteredTipoGrupos;
+
+	private List<SelectItem> selectOneItemTipoGrupo;
+
+	// -- Spring User Service is injected... --//
+	@ManagedProperty(value = "#{GrupoService}")
 	private IGrupoService grupoService;
- 	@ManagedProperty(value = "#{TipoGrupoService}")
- 	private ITipoGrupoService tipoGrupoService;
- 	private String nombre;
+	@ManagedProperty(value = "#{TipoGrupoService}")
+	private ITipoGrupoService tipoGrupoService;
+	private String nombre;
 	private Integer grupo;
- 	
- 	
- 	//-- TODO: Constructor --//
-    public TipoGrupoManagedBean() {
-    	
+
+	// -- TODO: Constructor --//
+	public TipoGrupoManagedBean() {
+
 	}
-    
-    @PostConstruct
+
+	@PostConstruct
 	public void inicializar() {
-    	onReset();
-		
+		onReset();
+
 	}
-    
-    
-  //-- TODO: Getter y setter del servicio --//
-    public ITipoGrupoService getTipoGrupoService() {
+
+	// -- TODO: Getter y setter del servicio --//
+	public ITipoGrupoService getTipoGrupoService() {
 		return tipoGrupoService;
 	}
 
@@ -83,8 +79,8 @@ public class TipoGrupoManagedBean implements Serializable{
 	}
 
 	public TipoGrupo getSelectedTipoGrupo() {
-		if(selectedTipoGrupo==null)
-			selectedTipoGrupo = getTipoGrupoService().getTipoGrupos().get(0); 
+		if (selectedTipoGrupo == null)
+			selectedTipoGrupo = getTipoGrupoService().getTipoGrupos().get(0);
 		return selectedTipoGrupo;
 	}
 
@@ -99,10 +95,8 @@ public class TipoGrupoManagedBean implements Serializable{
 	public void setFilteredTipoGrupos(List<TipoGrupo> filteredTipoGrupos) {
 		this.filteredTipoGrupos = filteredTipoGrupos;
 	}
-	
-	
 
-	//-- TODO: Acciones de la vista --//
+	// -- TODO: Acciones de la vista --//
 
 	public String getNombre() {
 		return nombre;
@@ -120,84 +114,122 @@ public class TipoGrupoManagedBean implements Serializable{
 		this.nombre = nombre;
 	}
 
-
 	public List<SelectItem> getSelectOneItemTipoGrupo() {
 		selectOneItemTipoGrupo = new ArrayList<SelectItem>();
 		List<TipoGrupo> tipoGrupos = getTipoGrupoService().getTipoGrupos();
 		for (TipoGrupo tipoGrupo : tipoGrupos) {
-			SelectItem selectItem = new SelectItem(tipoGrupo.getId(), tipoGrupo.getNombre());
+			SelectItem selectItem = new SelectItem(tipoGrupo.getId(),
+					tipoGrupo.getNombre());
 			selectOneItemTipoGrupo.add(selectItem);
 		}
 		return selectOneItemTipoGrupo;
 	}
-	
-//	TODO: Action Listener
-	
-	public void onCreate(ActionEvent actionEvent) {
-		try {
-			TipoGrupo tipoGrupoAdd = new TipoGrupo();
-			tipoGrupoAdd.setNombre(getNombre());
-			tipoGrupoAdd.setGrupo(getGrupoService().getGrupoById(getGrupo()));
-			
-		    if(getTipoGrupoService().addTipoGrupo(tipoGrupoAdd))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El Tipo Grupo "+tipoGrupoAdd.getNombre()+" se guardo con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El Tipo Grupo "+tipoGrupoAdd.getNombre()+" no se pudo guardo :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
-		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
-		}
 
+	// TODO: Action Listener
+
+	public void onCreate(ActionEvent actionEvent) {
+		if (verificarDuplicado(getNombre())) {
+			try {
+				TipoGrupo tipoGrupoAdd = new TipoGrupo();
+				tipoGrupoAdd.setNombre(getNombre());
+				tipoGrupoAdd.setGrupo(getGrupoService()
+						.getGrupoById(getGrupo()));
+
+				if (getTipoGrupoService().addTipoGrupo(tipoGrupoAdd)) {
+					onReset();
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_INFO, "Exito : ",
+							"El Tipo Grupo " + tipoGrupoAdd.getNombre()
+									+ " se guardo con éxito :)");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				} else {
+					FacesMessage message = new FacesMessage(
+							FacesMessage.SEVERITY_ERROR, "Error : ",
+							"El Tipo Grupo " + tipoGrupoAdd.getNombre()
+									+ " no se pudo guardo :(");
+					FacesContext.getCurrentInstance().addMessage(null, message);
+				}
+			} catch (DataAccessException e) {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_FATAL, "Error de Conexión: ",
+						"Error en el acceso a la base de datos, Detalle: "
+								+ e.getMessage() + " x(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
+		} else {
+			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN,
+					"Error : ", "El tipo de grupo " + getNombre()
+							+ " ya se encuntra registrado.");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
 	}
-	
-	
+
 	public void onEdit(ActionEvent actionEvent) {
 		try {
-			
-		    if(getTipoGrupoService().updateTipoGrupo(getSelectedTipoGrupo()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El Tipo Grupo "+this.selectedTipoGrupo.getNombre()+" se modifico con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El Tipo Grupo "+this.selectedTipoGrupo.getNombre()+" no se pudo modificar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+
+			if (getTipoGrupoService().updateTipoGrupo(getSelectedTipoGrupo())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ",
+						"El Tipo Grupo " + this.selectedTipoGrupo.getNombre()
+								+ " se modifico con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ",
+						"El Tipo Grupo " + this.selectedTipoGrupo.getNombre()
+								+ " no se pudo modificar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-	
-	
+
 	public void onDelete(ActionEvent actionEvent) {
-	    try {
-			
-		    if(getTipoGrupoService().deleteTipoGrupo(getSelectedTipoGrupo()))
-		    {
-		    	onReset();
-		        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito : ",  "El Tipo Grupo "+getSelectedTipoGrupo().getNombre()+" fue eliminado con éxito :)");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }else{
-		    	FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error : ",  "El Tipo Grupo "+getSelectedTipoGrupo().getNombre()+" no se pudo eliminar :(");
-		        FacesContext.getCurrentInstance().addMessage(null, message);
-		    }
+		try {
+
+			if (getTipoGrupoService().deleteTipoGrupo(getSelectedTipoGrupo())) {
+				onReset();
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_INFO, "Exito : ",
+						"El Tipo Grupo " + getSelectedTipoGrupo().getNombre()
+								+ " fue eliminado con éxito :)");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			} else {
+				FacesMessage message = new FacesMessage(
+						FacesMessage.SEVERITY_ERROR, "Error : ",
+						"El Tipo Grupo " + getSelectedTipoGrupo().getNombre()
+								+ " no se pudo eliminar :(");
+				FacesContext.getCurrentInstance().addMessage(null, message);
+			}
 		} catch (DataAccessException e) {
-			FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",  "Error en el acceso a la base de datos, Detalle: "+e.getMessage()+" x(");
-	        FacesContext.getCurrentInstance().addMessage(null, message);
+			FacesMessage message = new FacesMessage(
+					FacesMessage.SEVERITY_FATAL, "Error de Conexión : ",
+					"Error en el acceso a la base de datos, Detalle: "
+							+ e.getMessage() + " x(");
+			FacesContext.getCurrentInstance().addMessage(null, message);
 		}
 	}
-   
-	public void onReset(){
+
+	public void onReset() {
 		tipoGrupos = new ArrayList<TipoGrupo>();
 		tipoGrupos.addAll(getTipoGrupoService().getTipoGrupos());
-		filteredTipoGrupos  = new ArrayList<TipoGrupo>();
+		filteredTipoGrupos = new ArrayList<TipoGrupo>();
 		filteredTipoGrupos.addAll(tipoGrupos);
+	}
+
+	protected boolean verificarDuplicado(String nombre) {
+		for (TipoGrupo g : getTipoGrupos()) {
+			if (g.getNombre().equals(nombre)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

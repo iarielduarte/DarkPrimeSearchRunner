@@ -15,7 +15,7 @@
 			<p:growl id="msgs" showDetail="true" />
 			
 			<h:form>
-			<p:commandButton id="btnAddCliente" update=":formAdd"
+			<p:commandButton id="btnAddCliente" update=":formAdd" actionListener="#{clienteMBean.onReset}"
 			oncomplete="PF('clienteDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nuevo Cliente"/>
 			
 			<p:commandButton id="btnPrintCliente" update=":formPrint"
@@ -98,7 +98,7 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{clienteMBean.nombre}"	size="30" required="true" label="Nombre" requiredMessage="El nombre es un campo obligatorio" />
+						<p:inputText value="#{clienteMBean.nombre}"	size="30" required="true" label="Nombre" requiredMessage="El nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 
 						<h:outputText value="Ruc o Cedula:*" />
 						<p:inputText value="#{clienteMBean.ruc}" size="30" required="true" label="Ruc" requiredMessage="El RUC es un campo obligatorio" />
@@ -111,20 +111,20 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Dirección:" />
-						<p:inputText value="#{clienteMBean.direccion}" label="Direccion" size="50" />
+						<p:inputText value="#{clienteMBean.direccion}" label="Direccion" size="50" onblur="value=value.toUpperCase()"/>
 						
 						<h:outputText value="Teléfono:" />
-						<p:inputText value="#{clienteMBean.telefono}" label="Telefono" size="30" />
+						<p:inputMask value="#{clienteMBean.telefono}" label="Telefono" size="30" mask="999-999"/>
 						
 						<h:outputText value="Célular:" />
-						<p:inputText value="#{clienteMBean.celular}" label="Celular" size="30" />
+						<p:inputMask value="#{clienteMBean.celular}" label="Celular" size="30" mask="(9999) 999-999"/>
 						
 						<h:outputText value="Email:" />
-						<p:inputText value="#{clienteMBean.email}" label="Email" size="30" />
+						<p:inputText value="#{clienteMBean.email}" label="Email" size="30" onblur="value=value.toLowerCase()"/>
 						
 						<h:outputLabel value="Comentarios: " />
 						<p:inputTextarea id="obs" value="#{clienteMBean.comentario}" rows="6" cols="33" counter="counter" maxlength="255"       
-    					counterTemplate="{0} Caracteres Restantes." autoResize="false" />  
+    					counterTemplate="{0} Caracteres Restantes." autoResize="false" onblur="value=value.toUpperCase()"/>  
   						
 						<h:outputText id="counter" /> 
 						
@@ -132,7 +132,7 @@
 						<f:facet name="footer">
 							<p:separator/>
 							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('clienteDialogAdd').hide()" actionListener="#{clienteMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
-							<p:commandButton id="btnAddCancel" oncomplete="PF('clienteDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+							<p:commandButton id="btnAddCancel" oncomplete="PF('clienteDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar" actionListener="#{clienteMBean.onReset}"/>
 						</f:facet>
 					</h:panelGrid>
 
@@ -158,7 +158,7 @@
 						
 						
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{clienteMBean.selectedCliente.nombre}" size="30" required="true" label="Nombre" requiredMessage="El campo nombre es obligatorio"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.nombre}" size="30" required="true" label="Nombre" requiredMessage="El campo nombre es obligatorio" onblur="value=value.toUpperCase()"/>
 
 						<h:outputText value="Ruc o Cédula:*" />
 						<p:inputText value="#{clienteMBean.selectedCliente.ruc}" size="30" required="true" label="Cedula" requiredMessage="El campo Ruc es obligatorio"/>
@@ -171,27 +171,27 @@
 						</p:selectOneMenu>
 						
 						<h:outputText value="Dirección:" />
-						<p:inputText value="#{clienteMBean.selectedCliente.direccion}" size="50" label="Direccion"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.direccion}" size="50" label="Direccion" onblur="value=value.toUpperCase()"/>
 						
 						<h:outputText value="Teléfono:" />
-						<p:inputText value="#{clienteMBean.selectedCliente.telefono}" size="30" label="Telefono"/>
+						<p:inputMask value="#{clienteMBean.selectedCliente.telefono}" size="30" label="Telefono" mask="999-999"/>
 						
 						<h:outputText value="Célular" />
-						<p:inputText value="#{clienteMBean.selectedCliente.celular}" size="30" label="Celular"/>
+						<p:inputMask value="#{clienteMBean.selectedCliente.celular}" size="30" label="Celular" mask="(9999) 999-999"/>
 						
 						<h:outputText value="Email" />
-						<p:inputText value="#{clienteMBean.selectedCliente.email}" size="30" label="Email"/>
+						<p:inputText value="#{clienteMBean.selectedCliente.email}" size="30" label="Email" onblur="value=value.toLowerCase()"/>
 						
 						<h:outputLabel value="Comentarios: " />
 						<p:inputTextarea id="obs" value="#{clienteMBean.selectedCliente.comentario}" rows="6" cols="33" counter="counter" maxlength="255"       
-    					counterTemplate="{0} Caracteres Restantes." autoResize="false" />  
+    					counterTemplate="{0} Caracteres Restantes." autoResize="false" onblur="value=value.toUpperCase()"/>  
   						
 						<h:outputText id="counter" /> 
 						
 						<f:facet name="footer">
 							<p:separator/>
 							<p:commandButton id="btnUpdateSave" update=":formDataTable, :msgs" oncomplete="PF('clienteDialogUpdate').hide()" actionListener="#{clienteMBean.onEdit(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
-							<p:commandButton id="btnUpdateCancel" oncomplete="PF('clienteDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+							<p:commandButton id="btnUpdateCancel" oncomplete="PF('clienteDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar" actionListener="#{clienteMBean.onReset}"/>
 						</f:facet>
 					</h:panelGrid>
 

@@ -5,16 +5,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	>
 
 <h:body>
 	<ui:composition template="./../template.xhtml">
 
 		<ui:define name="content">
-
 			<p:growl id="msgs" showDetail="true" />
 			<h:form>
-			<p:commandButton id="btnAddCategoria" update=":formAdd"
+			<p:commandButton id="btnAddCategoria" update=":formAdd" actionListener="#{categoriaMBean.onReset}"
 			oncomplete="PF('categoriaDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nueva Categoria"/>
 			
 			<p:commandButton id="btnPrintCategoria" update=":formPrint"
@@ -77,13 +78,14 @@
 			<h:form id="formAdd">
 				<p:dialog header="Agregar Categoria" widgetVar="categoriaDialogAdd"
 					resizable="false" id="categoriaDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
-
+					<pe:keyFilter for="descuento" mask="num"/>
+					<pe:keyFilter for="ganancia" mask="num"/>
 					<h:panelGrid id="display" columns="2" cellpadding="4"
 						style="margin:0 auto;">
 
 						<h:outputText value="Nombre:*" />
 						<p:inputText id="nombre"  value="#{categoriaMBean.nombre}" required="true" label="Nombre"
-						requiredMessage="Nombre es un campo obligatorio" />
+						requiredMessage="Nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
 						
 						<h:outputText value="% Descuento:" />
 						<p:inputText id="descuento"  value="#{categoriaMBean.descuento}" label="Descuento" size="30" converterMessage="Se espera un valor númerico" 
@@ -93,11 +95,11 @@
 						</p:inputText>
 						
 						<h:outputText value="% Ganancia:" />
-						<p:inputText id="ganancia"  value="#{categoriaMBean.ganancia}" label="Ganancia" size="30" converterMessage="Se espera un valor númerico" 
+						<p:inputMask id="ganancia"  value="#{categoriaMBean.ganancia}" label="Ganancia" size="30" converterMessage="Se espera un valor númerico" 
 						validatorMessage="Se espera un valor entre 100 y 0">
 						<f:converter converterId="javax.faces.Double"/>
 						<f:validateDoubleRange maximum="100" minimum="0"/>
-						</p:inputText>
+						</p:inputMask>
 						
 						<f:facet name="footer">
 							<p:separator/>
@@ -105,7 +107,7 @@
 							<p:commandButton id="btnAddCancel" oncomplete="PF('categoriaDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
 						</f:facet>
 					</h:panelGrid>
-
+					
 				</p:dialog>
 			</h:form>
 			
@@ -120,7 +122,7 @@
 						<p:inputText value="#{categoriaMBean.selectedCategoria.id}" disabled="true"/>
 
 						<h:outputText value="Nombre:*" />
-						<p:inputText value="#{categoriaMBean.selectedCategoria.nombre}" required="true" label="Falta nombre de Categoria" requiredMessage="Falta nombre de Categoria" />
+						<p:inputText value="#{categoriaMBean.selectedCategoria.nombre}" required="true" label="Falta nombre de Categoria" requiredMessage="Falta nombre de Categoria" onblur="value=value.toUpperCase()"/>
 
 						<h:outputText value="% Descuento:" />
 						<p:inputText id="descuento"  value="#{categoriaMBean.selectedCategoria.descuento}" label="Descuento" size="30" converterMessage="Se espera un valor númerico" 
