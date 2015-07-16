@@ -1,0 +1,6 @@
+body{
+	font: 62.5% "Trebuchet MS", sans-serif;
+	margin: 50px;
+	background:url(../images/negro.jpg), rgba(0,0,0,0);
+/* 	background-repeat:repeat-x; */
+}

@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="msgs" showDetail="true" />
+			
+			<h:form>
+			<p:commandButton id="btnAddProveedor" update=":formAdd"
+			oncomplete="PF('proveedorDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nuevo Proveedor"/>
+			
+			<p:commandButton id="btnPrintProveedor" update=":formPrint"
+			oncomplete="PF('proveedorDialogPrint').show()" icon="ui-icon-print" title="Imprimir" value="Informe de Proveedores"/>
+			</h:form>
+			
+			<p:separator></p:separator>
+
+			<h:form id="formDataTable">
+				<p:dataTable id="proveedorTable" var="item" value="#{proveedorMBean.proveedores}"
+				selection="#{proveedorMBean.selectedProveedor}" 
+				emptyMessage="No hay Proveedores con este criterio"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{proveedorMBean.filteredProveedores}" 
+				widgetVar="ProveedorDataTable"
+				>
+				
+					<p:column headerText="Id" style="width:6%" filterBy="#{item.id}" sortBy="#{item.id}">
+						<h:outputText value="#{item.id}"  />
+					</p:column>
+					
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains" sortBy="#{item.nombre}">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+					
+					<p:column headerText="Ruc" filterBy="#{item.ruc}" style="width:20%" filterMatchMode="contains" sortBy="#{item.ruc}">
+						<h:outputText value="#{item.ruc}" />
+					</p:column>
+
+					<p:column headerText="Teléfono" style="width:20%" >
+						<h:outputText value="#{item.telefono}" />
+					</p:column>
+					
+					<p:column headerText="Celular" style="width:20%" >
+						<h:outputText value="#{item.celular}" />
+					</p:column>
+					
+					<p:column headerText="Email" style="width:20%" >
+						<h:outputText value="#{item.email}" />
+					</p:column>
+					
+					<p:column headerText="Ver" style="width:32px">  
+	                    <p:commandButton id="btnView" update=":formView:display" onclick="proveedorDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{proveedorMBean.selectedProveedor}" />  
+	                    </p:commandButton>  
+                   </p:column>
+
+					<p:column headerText="Editar" style="width:32px">
+						<p:commandButton id="btnUpdate" update=":formUpdate" oncomplete="proveedorDialogUpdate.show()" icon="ui-icon-pencil" title="Modificar">
+							<f:setPropertyActionListener value="#{item}" target="#{proveedorMBean.selectedProveedor}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Borrar" style="width:32px">
+						<p:commandButton id="btnDelete" update=":formDelete" oncomplete="proveedorDialogDelete.show()" icon="ui-icon-trash"	title="Eliminar">
+							<f:setPropertyActionListener value="#{item}" target="#{proveedorMBean.selectedProveedor}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+			
+			<h:form id="formAdd">
+				<p:dialog header="Agregar Proveedor" widgetVar="proveedorDialogAdd"
+					resizable="false" id="proveedorDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{proveedorMBean.nombre}" size="30" required="true" label="Nombre" requiredMessage="El nombre es un campo obligatorio" onblur="value=value.toUpperCase()"/>
+
+						<h:outputText value="Ruc o Cedula:*" />
+						<p:inputText value="#{proveedorMBean.ruc}" size="30" required="true" label="Ruc" requiredMessage="El RUC es un campo obligatorio" />
+						
+						<h:outputText value="País:*"/>
+						<p:selectOneMenu value="#{proveedorMBean.paisId}" panelStyle="width:150px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{paisMBean.selectOneItemPais}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Ciudad:*"/>
+						<p:selectOneMenu value="#{proveedorMBean.ciudadId}" panelStyle="width:150px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{ciudadMBean.selectOneItemCiudad}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Dirección:" />
+						<p:inputText value="#{proveedorMBean.direccion}" label="Direccion" size="50" onblur="value=value.toUpperCase()"/>
+						
+						<h:outputText value="Teléfono:" />
+						<p:inputMask value="#{proveedorMBean.telefono}" label="Telefono" size="30" mask="999-999" />
+						
+						<h:outputText value="Célular:" />
+						<p:inputMask value="#{proveedorMBean.celular}" label="Celular" size="30" mask="(9999) 999-999"/>
+						
+						<h:outputText value="Email:" />
+						<p:inputText value="#{proveedorMBean.email}" label="Email" size="40" onblur="value=value.toLowerCase()"/>
+													
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('proveedorDialogAdd').hide()" actionListener="#{proveedorMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnAddCancel" oncomplete="PF('proveedorDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Proveedor" widgetVar="proveedorDialogUpdate"
+					resizable="false" id="proveedorDlgUpdate" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<p:inputText value="#{proveedorMBean.selectedProveedor.id}" disabled="true"/>
+						
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{proveedorMBean.selectedProveedor.nombre}" size="30" required="true" label="Nombre" requiredMessage="El campo nombre es obligatorio" onblur="value=value.toUpperCase()"/>
+
+						<h:outputText value="Ruc o Cédula:*" />
+						<p:inputText value="#{proveedorMBean.selectedProveedor.ruc}" size="30" required="true" label="Cedula" requiredMessage="El campo Ruc es obligatorio"/>
+						
+						<h:outputText value="País:*" />
+						<p:selectOneMenu value="#{proveedorMBean.selectedProveedor.pais.id}" panelStyle="width:150px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{paisMBean.selectOneItemPais}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Ciudad:*" />
+						<p:selectOneMenu value="#{proveedorMBean.selectedProveedor.ciudad.id}" panelStyle="width:150px" effect="fade" style="width:160px"
+						filter="true" filterMatchMode="startsWith">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{ciudadMBean.selectOneItemCiudad}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Dirección:" />
+						<p:inputText value="#{proveedorMBean.selectedProveedor.direccion}" size="50" label="Direccion" onblur="value=value.toUpperCase()"/>
+						
+						<h:outputText value="Teléfono:" />
+						<p:inputMask value="#{proveedorMBean.selectedProveedor.telefono}" size="30" label="Telefono" mask="999-999" />
+						
+						<h:outputText value="Célular" />
+						<p:inputMask value="#{proveedorMBean.selectedProveedor.celular}" size="30" label="Celular" mask="(9999) 999-999"/>
+						
+						<h:outputText value="Email" />
+						<p:inputText value="#{proveedorMBean.selectedProveedor.email}" size="40" label="Email" onblur="value=value.toLowerCase()"/>
+						
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnUpdateSave" update=":formDataTable, :msgs" oncomplete="PF('proveedorDialogUpdate').hide()" actionListener="#{proveedorMBean.onEdit(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnUpdateCancel" oncomplete="PF('proveedorDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formDelete">
+			<p:confirmDialog id="confirmDialog" showEffect="fade" hideEffect="explode" severity="alert" widgetVar="proveedorDialogDelete"
+				message="¿Estas seguro que desea eliminar?" header="Confirmar Eliminado" icon="ui-icon-alert">  
+        			
+        			<p:commandButton id="confirm" value="Si" icon="ui-icon-check"
+        			update=":formDataTable, :msgs" actionListener="#{proveedorMBean.onDelete(actionEvent)}" oncomplete="proveedorDialogDelete.hide()"  />  
+        			
+        			<p:commandButton id="decline" value="No" type="button" icon="ui-icon-close" onclick="proveedorDialogDelete.hide()"/>       
+    			</p:confirmDialog> 
+				 
+			</h:form>
+			
+			<h:form id="formView">
+				<p:dialog header="Ver Proveedor" widgetVar="proveedorDialogView"
+					resizable="false" id="proveedorDlgView" showEffect="explode" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<h:outputText value="#{proveedorMBean.selectedProveedor.id}" />
+						
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.nombre}" />
+						
+						<h:outputText value="Ruc o Cedula:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.ruc}" />
+						
+						<h:outputText value="País:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.pais.nombre}" />
+						
+						<h:outputText value="Ciudad:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.ciudad.nombre}" />
+						
+						<h:outputText value="Dirección:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.direccion}" />
+						
+						<h:outputText value="Teléfono:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.telefono}" />
+						
+						<h:outputText value="Célular:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.celular}" />
+						
+						<h:outputText value="Email:" />
+						<h:outputText value="#{proveedorMBean.selectedProveedor.email}" />
+						
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formPrint">
+				<p:dialog header="Informe de Proveedor" widgetVar="proveedorDialogPrint" sortMode="multiple"
+					resizable="false" id="proveedorDlgPrint" showEffect="fade" hideEffect="explode" modal="true">
+				<p:dataTable id="tgprint" var="item" value="#{proveedorMBean.proveedores}" 
+							selection="#{proveedorMBean.selectedProveedor}" 
+			                emptyMessage="No Proveedor con este criterio"
+			                paginator="true" rows="10"
+			                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			                paginatorPosition="bottom"
+			                rowKey="#{item.id}"
+			                selectionMode="single"
+			                filteredValue="#{proveedorMBean.filteredProveedores}" 
+			               >
+							<p:column style="width:24%" sortBy="#{item.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Nombre" />  
+	       						</f:facet>
+								<h:outputText value="#{item.nombre}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.ruc}">
+								<f:facet name="header">  
+	            					<h:outputText value="Ruc" />  
+	       						</f:facet>
+								<h:outputText value="#{item.ruc}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.ciudad.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Ciudad" />  
+	       						</f:facet>
+								<h:outputText value="#{item.ciudad.nombre}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.direccion}">
+								<f:facet name="header">  
+	            					<h:outputText value="Dire" />  
+	       						</f:facet>
+								<h:outputText value="#{item.direccion}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.telefono}">
+								<f:facet name="header">  
+	            					<h:outputText value="Telef" />  
+	       						</f:facet>
+								<h:outputText value="#{item.telefono}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.celular}">
+								<f:facet name="header">  
+	            					<h:outputText value="Cel" />  
+	       						</f:facet>
+								<h:outputText value="#{item.celular}" />
+							</p:column>
+							
+							<p:column style="width:24%" sortBy="#{item.email}">
+								<f:facet name="header">  
+	            					<h:outputText value="Email" />  
+	       						</f:facet>
+								<h:outputText value="#{item.email}" />
+							</p:column>
+
+				</p:dataTable>
+					<h:panelGrid columns="2">
+						<p:panel header="Exportar todo">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="tgprint" fileName="Proveedores" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target=":formPrint:tgprint"
+									fileName="Proveedores" />
+							</h:commandLink>
+
+						</p:panel>
+
+						<p:panel header="Exportar pagina">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="tgprint" fileName="Proveedores"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target="tgprint" fileName="Proveedores"
+									pageOnly="true" />
+							</h:commandLink>
+
+						</p:panel>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

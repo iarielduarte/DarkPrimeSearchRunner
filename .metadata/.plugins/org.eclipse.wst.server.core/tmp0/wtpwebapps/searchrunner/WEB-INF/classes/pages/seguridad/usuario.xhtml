@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="msgs" showDetail="true" />
+			
+			<h:form>
+			<p:commandButton id="btnAddUsuario" update=":formAdd"
+			oncomplete="PF('usuarioDialogAdd').show()" icon="ui-icon-plusthick" title="Agregar" value="Nuevo Usuario"/>
+			
+			<p:commandButton id="btnPrintUsuario" update=":formPrint"
+			oncomplete="PF('usuarioDialogPrint').show()" icon="ui-icon-print" title="Imprimir" value="Informe de Usuarios"/>
+			</h:form>
+			
+			<p:separator></p:separator>
+
+			<h:form id="formDataTable">
+				<p:dataTable id="usu" var="item" value="#{usuarioMBean.usuarios}"
+				selection="#{usuarioMBean.selectedUsuario}" 
+				emptyMessage="No hay usuarios con este criterio"
+				paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowKey="#{item.id}"
+				selectionMode="single"
+				filteredValue="#{usuarioMBean.filteredUsuarios}" 
+				widgetVar="usuarioDataTable"
+				>
+				
+<!-- 					<f:facet name="header"> -->
+<!-- 						<p:outputPanel> -->
+<!-- 							<h:outputText value="Buscar: " /> -->
+<!-- 							<p:inputText id="globalFilter" -->
+<!-- 								onkeyup="usuarioDataTable.filter()" style="width:500px" /> -->
+<!-- 						</p:outputPanel> -->
+<!-- 					</f:facet> -->
+
+					<p:column headerText="Id" style="width:6%" filterBy="#{item.id}" sortBy="#{item.id}">
+						<h:outputText value="#{item.id}"  />
+					</p:column>
+
+					<p:column headerText="Nombre" style="width:24%" filterBy="#{item.nombre}" filterMatchMode="contains" sortBy="#{item.nombre}">
+						<h:outputText value="#{item.nombre}" />
+					</p:column>
+
+					<p:column headerText="Rol" style="width:24%" filterBy="#{item.rol.nombre}" filterMatchMode="contains" sortBy="#{item.rol.nombre}">
+						<h:outputText value="#{item.rol.nombre}" />
+					</p:column>
+
+					<p:column headerText="Email" style="width:24%" filterBy="#{item.email}" filterMatchMode="contains" sortBy="#{item.email}">
+						<h:outputText value="#{item.email}" />
+					</p:column>
+					
+					<p:column headerText="Ver" style="width:32px">  
+	                    <p:commandButton id="btnView" update=":formView:display" onclick="usuarioDialogView.show()" icon="ui-icon-search">  
+	                        <f:setPropertyActionListener value="#{item}"  target="#{usuarioMBean.selectedUsuario}" />  
+	                    </p:commandButton>  
+                   </p:column>
+
+					<p:column headerText="Editar" style="width:32px">
+						<p:commandButton id="btnUpdate" update=":formUpdate" oncomplete="usuarioDialogUpdate.show()" icon="ui-icon-pencil" title="Modificar">
+							<f:setPropertyActionListener value="#{item}" target="#{usuarioMBean.selectedUsuario}" />
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Borrar" style="width:32px">
+						<p:commandButton id="btnDelete" update=":formDelete" oncomplete="usuarioDialogDelete.show()" icon="ui-icon-trash"	title="Eliminar">
+							<f:setPropertyActionListener value="#{item}" target="#{usuarioMBean.selectedUsuario}" />
+						</p:commandButton>
+					</p:column>
+					
+				</p:dataTable>
+			</h:form>
+			
+			<h:form id="formAdd">
+				<p:dialog header="Agregar Usuario" widgetVar="usuarioDialogAdd"
+					resizable="false" id="usuarioDlgAdd" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{usuarioMBean.nombre}"	required="true" label="Falta nombre de usuario" />
+
+						<h:outputText value="Rol:*" />
+						<p:selectOneMenu value="#{usuarioMBean.rol}">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{rolMBean.selectOneItemRol}" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Clave:*" />
+						<p:password value="#{usuarioMBean.clave}" feedback="true" label="Falta Clave" required="true"
+							promptLabel="Ingrese una clave segura"
+							weakLabel="Mala" goodLabel="Normal" strongLabel="Excelente"/>
+							
+						<h:outputText value="Email:*" />
+						<p:inputText id="email" value="#{usuarioMBean.email}" label="Email" size="45" validatorMessage="Email invalido" required="true"
+						requiredMessage="Por favor ingrese un email valido" onblur="value=value.toLowerCase()">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnAddSave" update=":formDataTable, :msgs" oncomplete="PF('usuarioDialogAdd').hide()" actionListener="#{usuarioMBean.onCreate(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnAddCancel" oncomplete="PF('usuarioDialogAdd').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formUpdate">
+				<p:dialog header="Modificar Usuario" widgetVar="usuarioDialogUpdate"
+					resizable="false" id="usuarioDlgUpdate" showEffect="fade" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<p:inputText value="#{usuarioMBean.selectedUsuario.id}" />
+
+						<h:outputText value="Nombre:*" />
+						<p:inputText value="#{usuarioMBean.selectedUsuario.nombre}" required="true" label="Falta nombre de usuario"/>
+
+						<h:outputText value="Rol:*" />
+						<p:selectOneMenu value="#{usuarioMBean.selectedUsuario.rol.id}">
+							<f:selectItem itemLabel="- Seleccione - " itemValue="" />
+							<f:selectItems value="#{rolMBean.selectOneItemRol}" />
+						</p:selectOneMenu>
+
+						<h:outputText value="Clave:*" />
+						<p:password value="#{usuarioMBean.selectedUsuario.clave}" feedback="true" label="Falta la clave" required="true"
+							promptLabel="Ingrese una clave segura"
+							weakLabel="Mala" goodLabel="Normal" strongLabel="Excelente"/>
+							
+						<h:outputText value="Email:*" />
+						<p:inputText id="email" value="#{usuarioMBean.selectedUsuario.email}" label="Email" size="45" validatorMessage="Email invalido" required="true"
+						requiredMessage="Por favor ingrese un email valido" onblur="value=value.toLowerCase()">
+							<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+						</p:inputText>
+
+						<f:facet name="footer">
+							<p:separator/>
+							<p:commandButton id="btnUpdateSave" update=":formDataTable, :msgs" oncomplete="PF('usuarioDialogUpdate').hide()" actionListener="#{usuarioMBean.onEdit(actionEvent)}" title="guardar" icon="ui-icon-disk" value="Guardar"/>
+							<p:commandButton id="btnUpdateCancel" oncomplete="PF('usuarioDialogUpdate').hide()" title="cancelar" icon="ui-icon-close" value="Cancelar"/>
+						</f:facet>
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+			
+			<h:form id="formDelete">
+			<p:confirmDialog id="confirmDialog" showEffect="fade" hideEffect="explode" severity="alert" widgetVar="usuarioDialogDelete"
+				message="¿Estas seguro que desea eliminar?" header="Confirmar Eliminado" icon="ui-icon-alert">  
+        			
+        			<p:commandButton id="confirm" value="Si" icon="ui-icon-check"
+        			update=":formDataTable, :msgs" actionListener="#{usuarioMBean.onDelete(actionEvent)}" oncomplete="usuarioDialogDelete.hide()"  />  
+        			
+        			<p:commandButton id="decline" value="No" type="button" icon="ui-icon-close" onclick="usuarioDialogDelete.hide()"/>       
+    			</p:confirmDialog> 
+				 
+			</h:form>
+			
+			<h:form id="formView">
+				<p:dialog header="Ver Usuario" widgetVar="usuarioDialogView"
+					resizable="false" id="usuarioDlgView" showEffect="explode" hideEffect="explode" modal="true">
+
+					<h:panelGrid id="display" columns="2" cellpadding="4"
+						style="margin:0 auto;">
+
+						<h:outputText value="Id:"/>
+						<h:outputText value="#{usuarioMBean.selectedUsuario.id}" />
+
+						<h:outputText value="Nombre:" />
+						<h:outputText value="#{usuarioMBean.selectedUsuario.nombre}" />
+						
+						<h:outputText value="Rol:" />
+						<h:outputText value="#{usuarioMBean.selectedUsuario.rol.nombre}" />
+
+						<h:outputText value="Clave:" />
+						<h:outputText value="#{usuarioMBean.selectedUsuario.clave}" />
+							
+						<h:outputText value="Email:" />
+						<h:outputText value="#{usuarioMBean.selectedUsuario.email}" size="45"  />
+
+					</h:panelGrid>
+
+				</p:dialog>
+			</h:form>
+
+			<h:form id="formPrint">
+				<p:dialog header="Informe de Usuarios" widgetVar="usuarioDialogPrint" sortMode="multiple"
+					resizable="false" id="usuarioDlgPrint" showEffect="fade" hideEffect="explode" modal="true">
+				<p:dataTable id="usuprint" var="item" value="#{usuarioMBean.usuarios}" 
+							selection="#{usuarioMBean.selectedUsuario}" 
+			                emptyMessage="No hay usuarios con este criterio"
+			                paginator="true" rows="10"
+			                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			                paginatorPosition="bottom"
+			                rowKey="#{item.id}"
+			                selectionMode="single"
+			                filteredValue="#{usuarioMBean.filteredUsuarios}" 
+			               >
+							<p:column style="width:6%" sortBy="#{item.id}">
+								<f:facet name="header">  
+	            					<h:outputText value="Id" />  
+	       						</f:facet> 
+								<h:outputText value="#{item.id}" />
+							</p:column>
+
+							<p:column style="width:24%" sortBy="#{item.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Nombre" />  
+	       						</f:facet>
+								<h:outputText value="#{item.nombre}" />
+							</p:column>
+
+							<p:column style="width:24%" sortBy="#{item.rol.nombre}">
+								<f:facet name="header">  
+	            					<h:outputText value="Rol" />  
+	       						</f:facet>
+								<h:outputText value="#{item.rol.nombre}" />
+							</p:column>
+
+							<p:column style="width:24%">
+								<f:facet name="header">  
+	            					<h:outputText value="Email" />  
+	       						</f:facet>
+								<h:outputText value="#{item.email}" />
+							</p:column>
+				</p:dataTable>
+
+
+					<h:panelGrid columns="2">
+						<p:panel header="Exportar todo">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="usuprint" fileName="Usuarios" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target=":formPrint:usuprint"
+									fileName="Usuarios" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target="usuprint" fileName="Usuarios" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/xml.png" />
+								<p:dataExporter type="xml" target="usuprint" fileName="Usuarios" />
+							</h:commandLink>
+						</p:panel>
+
+						<p:panel header="Exportar pagina">
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target="usuprint" fileName="Usuarios"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/pdf.png" />
+								<p:dataExporter type="pdf" target="usuprint" fileName="Usuarios"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target="usuprint" fileName="Usuarios"
+									pageOnly="true" />
+							</h:commandLink>
+
+							<h:commandLink>
+								<p:graphicImage value="/resources/images/xml.png" />
+								<p:dataExporter type="xml" target="usuprint" fileName="Usuarios"
+									pageOnly="true" />
+							</h:commandLink>
+						</p:panel>
+					</h:panelGrid>
+				</p:dialog>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

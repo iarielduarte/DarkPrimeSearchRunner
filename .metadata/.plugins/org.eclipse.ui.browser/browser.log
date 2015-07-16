@@ -1,0 +1,261 @@
+
+ene. 28, 2015 23:53:42.45 NEW SESSION
+ene. 28, 2015 23:53:42.45 console.error: skype_ff_extension: 
+ene. 28, 2015 23:53:42.45   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+ene. 28, 2015 23:53:42.45 Traceback (most recent call last):
+ene. 28, 2015 23:53:42.45   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+ene. 28, 2015 23:53:42.45     run(options);
+ene. 28, 2015 23:53:42.46   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+ene. 28, 2015 23:53:42.46     let program = main(options.loader, options.main);
+ene. 28, 2015 23:53:42.46   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+ene. 28, 2015 23:53:42.46     return loader.load(loader, module).exports;
+ene. 28, 2015 23:53:42.46   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+ene. 28, 2015 23:53:42.46     result = load(loader, module);
+ene. 28, 2015 23:53:42.46   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+ene. 28, 2015 23:53:42.46     evaluate(sandbox, module.uri);
+ene. 28, 2015 23:53:42.46   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+ene. 28, 2015 23:53:42.47     : loadSubScript(uri, sandbox, encoding);
+ene. 28, 2015 23:53:42.47   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+ene. 28, 2015 23:53:42.47     var widgets = require("sdk/widget");
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+ene. 28, 2015 23:53:42.47     freeze(load(loader, module));
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+ene. 28, 2015 23:53:42.47     result = load(loader, module);
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+ene. 28, 2015 23:53:42.47     evaluate(sandbox, module.uri);
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+ene. 28, 2015 23:53:42.47     : loadSubScript(uri, sandbox, encoding);
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+ene. 28, 2015 23:53:42.47     "The widget module is deprecated.  " +
+ene. 28, 2015 23:53:42.47   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+ene. 28, 2015 23:53:42.47     let stack = get().slice(2);
+ene. 29, 2015 24:53:39.76 1422503619764	addons.update-checker	WARN	HTTP Request failed for an unknown reason
+ene. 29, 2015 01:53:39.84 1422507219838	addons.update-checker	WARN	HTTP Request failed for an unknown reason
+
+feb. 04, 2015 24:31:56.74 NEW SESSION
+feb. 04, 2015 24:31:56.74 console.error: skype_ff_extension: 
+feb. 04, 2015 24:31:56.79   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 04, 2015 24:31:56.79 Traceback (most recent call last):
+feb. 04, 2015 24:31:56.79   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 04, 2015 24:31:56.80     run(options);
+feb. 04, 2015 24:31:56.80   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 04, 2015 24:31:56.80     let program = main(options.loader, options.main);
+feb. 04, 2015 24:31:56.80   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 04, 2015 24:31:56.80     return loader.load(loader, module).exports;
+feb. 04, 2015 24:31:56.80   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 04, 2015 24:31:56.80     result = load(loader, module);
+feb. 04, 2015 24:31:56.81   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 04, 2015 24:31:56.81     evaluate(sandbox, module.uri);
+feb. 04, 2015 24:31:56.81   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 04, 2015 24:31:56.81     : loadSubScript(uri, sandbox, encoding);
+feb. 04, 2015 24:31:56.81   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 04, 2015 24:31:56.81     var widgets = require("sdk/widget");
+feb. 04, 2015 24:31:56.81   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 04, 2015 24:31:56.81     freeze(load(loader, module));
+feb. 04, 2015 24:31:56.81   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 04, 2015 24:31:56.82     result = load(loader, module);
+feb. 04, 2015 24:31:56.82   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 04, 2015 24:31:56.82     evaluate(sandbox, module.uri);
+feb. 04, 2015 24:31:56.82   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 04, 2015 24:31:56.82     : loadSubScript(uri, sandbox, encoding);
+feb. 04, 2015 24:31:56.82   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 04, 2015 24:31:56.82     "The widget module is deprecated.  " +
+feb. 04, 2015 24:31:56.82   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 04, 2015 24:31:56.82     let stack = get().slice(2);
+
+feb. 09, 2015 24:26:05.34 NEW SESSION
+feb. 09, 2015 24:26:05.34 console.error: skype_ff_extension: 
+feb. 09, 2015 24:26:05.38   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 09, 2015 24:26:05.38 Traceback (most recent call last):
+feb. 09, 2015 24:26:05.38   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 09, 2015 24:26:05.38     run(options);
+feb. 09, 2015 24:26:05.38   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 09, 2015 24:26:05.38     let program = main(options.loader, options.main);
+feb. 09, 2015 24:26:05.38   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 09, 2015 24:26:05.39     return loader.load(loader, module).exports;
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 09, 2015 24:26:05.39     result = load(loader, module);
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 09, 2015 24:26:05.39     evaluate(sandbox, module.uri);
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 09, 2015 24:26:05.39     : loadSubScript(uri, sandbox, encoding);
+feb. 09, 2015 24:26:05.39   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 09, 2015 24:26:05.39     var widgets = require("sdk/widget");
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 09, 2015 24:26:05.39     freeze(load(loader, module));
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 09, 2015 24:26:05.39     result = load(loader, module);
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 09, 2015 24:26:05.39     evaluate(sandbox, module.uri);
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 09, 2015 24:26:05.39     : loadSubScript(uri, sandbox, encoding);
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 09, 2015 24:26:05.39     "The widget module is deprecated.  " +
+feb. 09, 2015 24:26:05.39   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 09, 2015 24:26:05.39     let stack = get().slice(2);
+feb. 09, 2015 01:15:26.68 console.error: skype_ff_extension: 
+feb. 09, 2015 01:15:26.68   Message: TypeError: element is null
+feb. 09, 2015 01:15:26.68   Stack:
+feb. 09, 2015 01:15:26.68     ElementsFilter.isOnIgnoreList@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:76:13
+feb. 09, 2015 01:15:26.68 parseContent/<@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:318:1
+feb. 09, 2015 01:15:26.69 parseContent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:316:5
+feb. 09, 2015 01:15:26.69 processSettingsResponse@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:549:9
+feb. 09, 2015 01:15:26.69 @resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/browserSpecificScript.js:62:5
+feb. 09, 2015 01:15:26.69 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 01:15:26.69 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 01:15:26.69 onChromeEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:96:9
+feb. 09, 2015 01:15:26.69 
+feb. 09, 2015 01:26:01.63 1423455961635	addons.update-checker	WARN	HTTP Request failed for an unknown reason
+
+feb. 09, 2015 16:42:55.57 NEW SESSION
+feb. 09, 2015 16:42:55.57 console.error: skype_ff_extension: 
+feb. 09, 2015 16:42:55.65   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 09, 2015 16:42:55.66 Traceback (most recent call last):
+feb. 09, 2015 16:42:55.66   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 09, 2015 16:42:55.66     run(options);
+feb. 09, 2015 16:42:55.66   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 09, 2015 16:42:55.66     let program = main(options.loader, options.main);
+feb. 09, 2015 16:42:55.66   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 09, 2015 16:42:55.66     return loader.load(loader, module).exports;
+feb. 09, 2015 16:42:55.67   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 09, 2015 16:42:55.67     result = load(loader, module);
+feb. 09, 2015 16:42:55.67   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 09, 2015 16:42:55.67     evaluate(sandbox, module.uri);
+feb. 09, 2015 16:42:55.67   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 09, 2015 16:42:55.67     : loadSubScript(uri, sandbox, encoding);
+feb. 09, 2015 16:42:55.67   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 09, 2015 16:42:55.67     var widgets = require("sdk/widget");
+feb. 09, 2015 16:42:55.67   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 09, 2015 16:42:55.67     freeze(load(loader, module));
+feb. 09, 2015 16:42:55.68   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 09, 2015 16:42:55.68     result = load(loader, module);
+feb. 09, 2015 16:42:55.68   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 09, 2015 16:42:55.68     evaluate(sandbox, module.uri);
+feb. 09, 2015 16:42:55.68   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 09, 2015 16:42:55.68     : loadSubScript(uri, sandbox, encoding);
+feb. 09, 2015 16:42:55.68   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 09, 2015 16:42:55.68     "The widget module is deprecated.  " +
+feb. 09, 2015 16:42:55.68   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 09, 2015 16:42:55.68     let stack = get().slice(2);
+feb. 09, 2015 16:48:51.13 1423511331122	addons.update-checker	WARN	Update manifest for smartwebprinting@hp.com did not contain an updates property
+feb. 09, 2015 16:48:51.49 1423511331485	addons.update-checker	WARN	Update manifest for {972ce4c6-7e08-4474-a285-3208198ce6fd} did not contain an updates property
+feb. 09, 2015 16:50:58.22 console.error: skype_ff_extension: 
+feb. 09, 2015 16:50:58.22   Message: TypeError: element is null
+feb. 09, 2015 16:50:58.22   Stack:
+feb. 09, 2015 16:50:58.22     ElementsFilter.isOnIgnoreList@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:76:13
+feb. 09, 2015 16:50:58.22 parseContent/<@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:318:1
+feb. 09, 2015 16:50:58.22 parseContent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:316:5
+feb. 09, 2015 16:50:58.22 processSettingsResponse@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:549:9
+feb. 09, 2015 16:50:58.22 @resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/browserSpecificScript.js:62:5
+feb. 09, 2015 16:50:58.22 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 16:50:58.23 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 16:50:58.23 onChromeEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:96:9
+feb. 09, 2015 16:50:58.23 
+feb. 09, 2015 17:48:00.04 console.error: skype_ff_extension: 
+feb. 09, 2015 17:48:00.04   Message: TypeError: element is null
+feb. 09, 2015 17:48:00.04   Stack:
+feb. 09, 2015 17:48:00.04     ElementsFilter.isOnIgnoreList@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:76:13
+feb. 09, 2015 17:48:00.04 parseContent/<@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:318:1
+feb. 09, 2015 17:48:00.04 parseContent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:316:5
+feb. 09, 2015 17:48:00.04 processSettingsResponse@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/contentscript.js:549:9
+feb. 09, 2015 17:48:00.04 @resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://skype_ff_extension-at-jetpack/skype_ff_extension/data/browserSpecificScript.js:62:5
+feb. 09, 2015 17:48:00.04 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 17:48:00.04 onEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:45:9
+feb. 09, 2015 17:48:00.05 onChromeEvent@resource://gre/modules/addons/XPIProvider.jsm -> jar:file:///C:/Program%20Files%20(x86)/Mozilla%20Firefox/browser/extensions/%7B82AF8DCA-6DE9-405D-BD5E-43525BDAD38A%7D.xpi!/bootstrap.js -> resource://gre/modules/commonjs/toolkit/loader.js -> resource://gre/modules/commonjs/sdk/loader/sandbox.js -> resource://gre/modules/commonjs/sdk/content/content-worker.js:96:9
+feb. 09, 2015 17:48:00.05 
+feb. 10, 2015 01:20:05.82 1423542005794	addons.update-checker	WARN	HTTP Request failed for an unknown reason
+
+feb. 10, 2015 22:01:36.47 NEW SESSION
+feb. 10, 2015 22:01:36.47 console.error: skype_ff_extension: 
+feb. 10, 2015 22:01:36.64   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 10, 2015 22:01:36.64 Traceback (most recent call last):
+feb. 10, 2015 22:01:36.64   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 10, 2015 22:01:36.64     run(options);
+feb. 10, 2015 22:01:36.64   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 10, 2015 22:01:36.64     let program = main(options.loader, options.main);
+feb. 10, 2015 22:01:36.64   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 10, 2015 22:01:36.65     return loader.load(loader, module).exports;
+feb. 10, 2015 22:01:36.65   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 10, 2015 22:01:36.65     result = load(loader, module);
+feb. 10, 2015 22:01:36.65   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 10, 2015 22:01:36.66     evaluate(sandbox, module.uri);
+feb. 10, 2015 22:01:36.66   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 10, 2015 22:01:36.66     : loadSubScript(uri, sandbox, encoding);
+feb. 10, 2015 22:01:36.66   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 10, 2015 22:01:36.66     var widgets = require("sdk/widget");
+feb. 10, 2015 22:01:36.66   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 10, 2015 22:01:36.66     freeze(load(loader, module));
+feb. 10, 2015 22:01:36.66   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 10, 2015 22:01:36.66     result = load(loader, module);
+feb. 10, 2015 22:01:36.66   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 10, 2015 22:01:36.67     evaluate(sandbox, module.uri);
+feb. 10, 2015 22:01:36.67   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 10, 2015 22:01:36.67     : loadSubScript(uri, sandbox, encoding);
+feb. 10, 2015 22:01:36.67   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 10, 2015 22:01:36.67     "The widget module is deprecated.  " +
+feb. 10, 2015 22:01:36.68   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 10, 2015 22:01:36.68     let stack = get().slice(2);
+feb. 10, 2015 23:01:32.50 1423620092507	addons.update-checker	WARN	HTTP Request failed for an unknown reason
+
+feb. 11, 2015 01:56:37.87 NEW SESSION
+feb. 11, 2015 01:56:37.87 console.error: skype_ff_extension: 
+feb. 11, 2015 01:56:38.06   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 11, 2015 01:56:38.06 Traceback (most recent call last):
+feb. 11, 2015 01:56:38.06   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 11, 2015 01:56:38.06     run(options);
+feb. 11, 2015 01:56:38.06   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 11, 2015 01:56:38.06     let program = main(options.loader, options.main);
+feb. 11, 2015 01:56:38.06   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 11, 2015 01:56:38.06     return loader.load(loader, module).exports;
+feb. 11, 2015 01:56:38.06   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 11, 2015 01:56:38.07     result = load(loader, module);
+feb. 11, 2015 01:56:38.07   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 11, 2015 01:56:38.07     evaluate(sandbox, module.uri);
+feb. 11, 2015 01:56:38.07   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 11, 2015 01:56:38.07     : loadSubScript(uri, sandbox, encoding);
+feb. 11, 2015 01:56:38.07   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 11, 2015 01:56:38.07     var widgets = require("sdk/widget");
+feb. 11, 2015 01:56:38.07   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 11, 2015 01:56:38.07     freeze(load(loader, module));
+feb. 11, 2015 01:56:38.07   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 11, 2015 01:56:38.07     result = load(loader, module);
+feb. 11, 2015 01:56:38.07   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 11, 2015 01:56:38.08     evaluate(sandbox, module.uri);
+feb. 11, 2015 01:56:38.08   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 11, 2015 01:56:38.08     : loadSubScript(uri, sandbox, encoding);
+feb. 11, 2015 01:56:38.08   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 11, 2015 01:56:38.08     "The widget module is deprecated.  " +
+feb. 11, 2015 01:56:38.08   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 11, 2015 01:56:38.08     let stack = get().slice(2);
+
+feb. 12, 2015 24:00:17.10 NEW SESSION
+feb. 12, 2015 24:00:17.10 console.error: skype_ff_extension: 
+feb. 12, 2015 24:00:17.15   DEPRECATED: The widget module is deprecated.  Please consider using the sdk/ui module instead.
+feb. 12, 2015 24:00:17.15 Traceback (most recent call last):
+feb. 12, 2015 24:00:17.15   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 113, in startup/<
+feb. 12, 2015 24:00:17.15     run(options);
+feb. 12, 2015 24:00:17.15   File "resource://gre/modules/commonjs/sdk/addon/runner.js", line 149, in run
+feb. 12, 2015 24:00:17.15     let program = main(options.loader, options.main);
+feb. 12, 2015 24:00:17.16   File "resource://gre/modules/commonjs/toolkit/loader.js", line 647, in main
+feb. 12, 2015 24:00:17.16     return loader.load(loader, module).exports;
+feb. 12, 2015 24:00:17.16   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 12, 2015 24:00:17.16     result = load(loader, module);
+feb. 12, 2015 24:00:17.16   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 12, 2015 24:00:17.16     evaluate(sandbox, module.uri);
+feb. 12, 2015 24:00:17.17   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 12, 2015 24:00:17.17     : loadSubScript(uri, sandbox, encoding);
+feb. 12, 2015 24:00:17.17   File "resource://skype_ff_extension-at-jetpack/skype_ff_extension/lib/main.js", line 14, in null
+feb. 12, 2015 24:00:17.17     var widgets = require("sdk/widget");
+feb. 12, 2015 24:00:17.17   File "resource://gre/modules/commonjs/toolkit/loader.js", line 621, in require
+feb. 12, 2015 24:00:17.17     freeze(load(loader, module));
+feb. 12, 2015 24:00:17.17   File "resource://gre/modules/commonjs/sdk/loader/cuddlefish.js", line 129, in CuddlefishLoader/options<.load
+feb. 12, 2015 24:00:17.17     result = load(loader, module);
+feb. 12, 2015 24:00:17.17   File "resource://gre/modules/commonjs/toolkit/loader.js", line 299, in load
+feb. 12, 2015 24:00:17.17     evaluate(sandbox, module.uri);
+feb. 12, 2015 24:00:17.17   File "resource://gre/modules/commonjs/toolkit/loader.js", line 262, in evaluate
+feb. 12, 2015 24:00:17.18     : loadSubScript(uri, sandbox, encoding);
+feb. 12, 2015 24:00:17.18   File "resource://gre/modules/commonjs/sdk/widget.js", line 59, in null
+feb. 12, 2015 24:00:17.18     "The widget module is deprecated.  " +
+feb. 12, 2015 24:00:17.18   File "resource://gre/modules/commonjs/sdk/util/deprecate.js", line 18, in deprecateUsage
+feb. 12, 2015 24:00:17.18     let stack = get().slice(2);
+feb. 12, 2015 01:00:11.52 1423713611504	addons.update-checker	WARN	HTTP Request failed for an unknown reason

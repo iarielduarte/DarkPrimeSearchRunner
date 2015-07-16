@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<h:body>
+<ui:composition template="./../template.xhtml">
+
+		<ui:define name="content">
+
+			<p:growl id="mensaje" showDetail="true" />
+			
+			<h:form id="formUpdate">
+				
+				<p:commandButton id="btnVolver" action="#{articuloMBean.moveToPageArticulo}" icon="ui-icon-triangle-1-w" value="Volver" />
+				<p:commandButton id="btnGuardar" update=":formUpdate, :mensaje" actionListener="#{articuloMBean.onEdit(actionEvent)}" icon="ui-icon-disk" value="Guardar" />
+				
+				<p:separator></p:separator>
+				<p:panel id="panel2" header="Referencias del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="4" >
+						<h:outputText value="Grupo:*"/>
+                        <p:selectOneMenu id="somGrupo" value="#{articuloMBean.selectedArticulo.grupo.id}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="true">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{grupoMBean.selectOneItemGrupo}" />
+                             <p:ajax update="somTipoGrupo" listener="#{articuloMBean.handleGrupoChange}" />  
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Tipo de Grupo:*"/>
+                        <p:selectOneMenu id="somTipoGrupo"  value="#{articuloMBean.selectedArticulo.tipoGrupo.id}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" disabled="true">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{articuloMBean.selectOneItemTipoGrupo}" />
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Marca:*"/>
+                        <p:selectOneMenu id="somMarca" value="#{articuloMBean.selectedArticulo.marca.id}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" >
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{marcaMBean.selectOneItemMarca}" />
+                        </p:selectOneMenu>
+						
+						<h:outputText value="Procedencia:*"/>
+                        <p:selectOneMenu id="somPais" value="#{articuloMBean.selectedArticulo.pais.id}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith" >
+                            <f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+                            <f:selectItems value="#{paisMBean.selectOneItemPais}" />
+                        </p:selectOneMenu>
+						
+					</h:panelGrid>
+					
+				</p:panel>
+					
+				<p:panel id="panel1" header="Identificadores del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="2">
+						
+					</h:panelGrid>
+					
+					
+					<h:panelGrid columns="4">
+					
+						<h:outputLabel value="Descripción del Articulo: *" />
+						<p:inputText id="descripcion" value="#{articuloMBean.selectedArticulo.nombre}" 
+							required="true" label="Descripción" size="50" requiredMessage="El campo descripción es obligatorio" onblur="value=value.toUpperCase()">
+							<f:validateLength minimum="2" />
+						</p:inputText>
+					
+					<h:outputLabel value="Código de Articulo: *" />
+						<p:inputText id="codigoarticulo" value="#{articuloMBean.selectedArticulo.codigoOrigen}" disabled="true"
+							label="codigoarticulo" size="50" onblur="value=value.toUpperCase()"/>
+							
+						<h:outputLabel value="Código de Marca: *" />
+						<p:inputText id="codigomarca" value="#{articuloMBean.selectedArticulo.codigoMarca}" 
+							required="true" label="codigomarca" size="50" requiredMessage="El campo Codigo de Marca es obligatorio" onblur="value=value.toUpperCase()"/>
+						
+						<h:outputLabel value="Numero de Pieza: *" />
+						<p:inputText id="numeropieza" value="#{articuloMBean.selectedArticulo.numeroPieza}" 
+							required="true" label="numeropieza" size="50" requiredMessage="El campo Numero de Pieza es obligatorio" onblur="value=value.toUpperCase()"/>
+						
+						<h:outputLabel value="Codigo de Barras: " />
+						<p:inputText id="codigobarra" value="#{articuloMBean.selectedArticulo.codigoBarra}" size="50" />
+					</h:panelGrid>
+				</p:panel>
+
+			
+				<p:panel id="panel3" header="Precios e Impuestos del Articulo" style="margin-bottom:10px;">
+					<pe:keyFilter for="precioVenta" mask="num"/>
+					<pe:keyFilter for="precioActual" mask="num"/>
+					<h:panelGrid columns="4">
+						<h:outputLabel value="Precio de Venta: *" />
+						<p:inputText id="precioVenta" value="#{articuloMBean.selectedArticulo.precioVenta}" 
+							required="true" label="precioVenta" size="30" requiredMessage="El campo precio de venta es obligatorio"
+							converterMessage="Se espera un valor númerico" validatorMessage="Se espera un valor entre 1.000.000 y 0">
+							<f:converter converterId="javax.faces.Double"/>
+							<f:validateDoubleRange maximum="10000000" minimum="0"/>
+							</p:inputText>
+						
+						<h:outputLabel value="Precio de Compra: *" />
+						<p:inputText id="precioActual" value="#{articuloMBean.selectedArticulo.precioActual}" 
+							required="true" label="precioActual" size="30" requiredMessage="El campo precio de compra es obligatorio"
+							converterMessage="Se espera un valor númerico" validatorMessage="Se espera un valor entre 1.000.000 y 0">
+							<f:converter converterId="javax.faces.Double"/>
+							<f:validateDoubleRange maximum="1000000" minimum="0"/>
+							</p:inputText>
+
+						<h:outputLabel value="Tipo de Iva: * " />
+						<p:selectOneMenu value="#{articuloMBean.selectedArticulo.tipoIva}" >
+							<f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+							<f:selectItem itemLabel="GRAVADA" itemValue="GRAVADA" />
+							<f:selectItem itemLabel="EXENTA" itemValue="EXENTA" />
+						</p:selectOneMenu>
+
+						<h:outputLabel value="Iva: * " />
+						<p:selectOneMenu value="#{articuloMBean.selectedArticulo.iva}" >
+							<f:selectItem itemLabel=" - Seleccione - " itemValue="" />
+							<f:selectItem itemLabel="10%" itemValue="10" />
+							<f:selectItem itemLabel="5%" itemValue="5" />
+							<f:converter converterId="javax.faces.Integer"/>
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+				</p:panel>
+			
+				<p:panel id="panel5" header="Información de Stock" style="margin-bottom:10px;">
+						<pe:keyFilter for="stockMinimo" mask="num"/>
+						<h:panelGrid columns="4">
+						<h:outputLabel value="Stock Minimo: *" />
+						<p:inputText id="stockMinimo" value="#{articuloMBean.selectedArticulo.stockMinimo}" 
+							required="true" label="stockMinimo" size="30" requiredMessage="El campo stock minimo es obligatorio"
+							converterMessage="Se espera una cantidad númerica" validatorMessage="Se espera un valor entre 1.000 y 0">
+							<f:converter converterId="javax.faces.Integer"/>
+							<f:validateDoubleRange maximum="1000" minimum="0"/>
+							</p:inputText>
+						
+						 <h:outputText value="Ubicación: "/>
+                        <p:selectOneMenu value="#{articuloMBean.selectedArticulo.ubicacion.id}" panelStyle="width:150px" effect="fade" style="width:370px"
+                        filter="true" filterMatchMode="startsWith">
+                            <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                            <f:selectItems value="#{ubicacionMBean.selectOneItemUbicacion}" />
+                        </p:selectOneMenu>
+						
+					</h:panelGrid>
+				</p:panel>
+			
+				<p:panel id="panel4" header="Información del Articulo" style="margin-bottom:10px;">
+					<h:panelGrid columns="1" >
+						
+						<h:outputLabel value="Observaciones " />
+						<p:inputTextarea id="obs" value="#{articuloMBean.selectedArticulo.observaciones}" rows="2" cols="140" counter="counter" maxlength="255"       
+    					counterTemplate="{0} Caracteres Restantes." autoResize="false" onblur="value=value.toUpperCase()"/>  
+  						
+						<h:outputText id="counter" />  
+						
+					</h:panelGrid>
+					
+				</p:panel>
+			</h:form>
+			</ui:define>
+	</ui:composition>
+
+</h:body>
+</html>

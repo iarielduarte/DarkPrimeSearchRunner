@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.chromia.model.Categoria"/>
+<fullyQualifiedTypeName name="org.primefaces.component.log.Log"/>
+<fullyQualifiedTypeName name="com.chromia.util.Util"/>
+<fullyQualifiedTypeName name="org.apache.commons.logging.LogFactory"/>
+<fullyQualifiedTypeName name="org.apache.commons.logging.Log"/>
+<fullyQualifiedTypeName name="com.chromia.service.ICategoriaService"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="com.chromia.repository.ProveedorDao"/>
+<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
+<fullyQualifiedTypeName name="com.chromia.model.Articulo"/>
+<fullyQualifiedTypeName name="org.primefaces.context.RequestContext"/>
+</qualifiedTypeNameHistroy>
